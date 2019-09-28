@@ -76,9 +76,15 @@ namespace eosiosystem {
 
    using namespace eosio;
 
-   void system_contract::newproposal( const name owner, const name account, uint32_t block_height, bool in_or_out, int16_t status) {
+   void system_contract::newproposal( const name owner, const name account, uint32_t block_height, bool is_remove, int16_t status) {
        require_auth( owner );
        const auto ct = current_time_point();
+
+
+       INLINE_ACTION_SENDER(eosio::token, transfer)(
+          token_account, { {owner, active_permission} },
+          { owner, prop_account, asset(15000, core_symbol()), "transfer 1.5000 EON to new proposal" }
+       );
 
        uint64_t id = _proposals.available_primary_key();
 
@@ -89,7 +95,7 @@ namespace eosiosystem {
            info.start_time = ct;
            info.end_time = ct + microseconds(useconds_per_day * 7);
            info.block_height = block_height;
-           info.is_remove = false;
+           info.is_remove = is_remove;
            info.is_satisfy = false;
            info.status = 0;
        });

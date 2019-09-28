@@ -369,6 +369,7 @@ namespace eosiosystem {
          static constexpr eosio::name saving_account{"eosio.saving"_n};
          static constexpr eosio::name blkpay_account{"eosio.blkpay"_n};
          static constexpr eosio::name bpstk_account{"eosio.bpstk"_n};
+         static constexpr eosio::name prop_account{"eosio.prop"_n};
          static constexpr eosio::name rex_account{"eosio.rex"_n};
          static constexpr eosio::name null_account{"eosio.null"_n};
          static constexpr symbol ramcore_symbol = symbol(symbol_code("RAMCORE"), 4);
@@ -607,7 +608,7 @@ namespace eosiosystem {
 
          // functions defined in producer_pay.cpp
          [[eosio::action]]
-         void newproposal( const name owner, const name account, uint32_t block_height, bool in_or_out, int16_t status);
+         void newproposal( const name owner, const name account, uint32_t block_height, bool is_remove, int16_t status);
          
          [[eosio::action]]
          void staketobp( const name owner );
