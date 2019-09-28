@@ -164,6 +164,22 @@ namespace eosiosystem {
       EOSLIB_SERIALIZE( producer_info2, (owner)(votepay_share)(last_votepay_share_update) )
    };
 
+   struct [[eosio::table, eosio::contract("eosio.system")]] producer_info3 {
+      name            owner;
+      
+      int64_t         bp_staked = 0;
+      time_point      stake_time;
+      double          total_yeas;
+      double          total_nays;
+      bool            is_bp;
+      int16_t         status;
+
+      uint64_t primary_key()const { return owner.value; }
+
+      // explicit serialization macro is not necessary, used here only to improve compilation time
+      EOSLIB_SERIALIZE( producer_info3, (owner)(bp_staked)(stake_time)(total_yeas)(total_nays)(is_bp)(status) )
+   };
+
    struct [[eosio::table, eosio::contract("eosio.system")]] voter_info {
       name                owner;     /// the voter
       name                proxy;     /// the proxy set by the voter, if any
@@ -208,6 +224,8 @@ namespace eosiosystem {
                                indexed_by<"prototalvote"_n, const_mem_fun<producer_info, double, &producer_info::by_votes>  >
                              > producers_table;
    typedef eosio::multi_index< "producers2"_n, producer_info2 > producers_table2;
+
+   typedef eosio::multi_index< "producers3"_n, producer_info3 > producers_table3;
 
    typedef eosio::singleton< "global"_n, eosio_global_state >   global_state_singleton;
    typedef eosio::singleton< "global2"_n, eosio_global_state2 > global_state2_singleton;
@@ -307,6 +325,7 @@ namespace eosiosystem {
          voters_table            _voters;
          producers_table         _producers;
          producers_table2        _producers2;
+         producers_table3        _producers3;
          global_state_singleton  _global;
          global_state2_singleton _global2;
          global_state3_singleton _global3;
@@ -330,6 +349,7 @@ namespace eosiosystem {
          static constexpr eosio::name names_account{"eosio.names"_n};
          static constexpr eosio::name saving_account{"eosio.saving"_n};
          static constexpr eosio::name blkpay_account{"eosio.blkpay"_n};
+         static constexpr eosio::name bpstk_account{"eosio.bpstk"_n};
          static constexpr eosio::name rex_account{"eosio.rex"_n};
          static constexpr eosio::name null_account{"eosio.null"_n};
          static constexpr symbol ramcore_symbol = symbol(symbol_code("RAMCORE"), 4);
@@ -568,6 +588,9 @@ namespace eosiosystem {
 
          // functions defined in producer_pay.cpp
          [[eosio::action]]
+         void staketobp( const name owner );
+
+         [[eosio::action]]
          void claimrewards( const name owner );
 
          [[eosio::action]]
@@ -620,6 +643,7 @@ namespace eosiosystem {
          using setramrate_action = eosio::action_wrapper<"setramrate"_n, &system_contract::setramrate>;
          using voteproducer_action = eosio::action_wrapper<"voteproducer"_n, &system_contract::voteproducer>;
          using regproxy_action = eosio::action_wrapper<"regproxy"_n, &system_contract::regproxy>;
+         using staketobp_action = eosio::action_wrapper<"staketobp"_n, &system_contract::staketobp>;
          using claimrewards_action = eosio::action_wrapper<"claimrewards"_n, &system_contract::claimrewards>;
          using rmvproducer_action = eosio::action_wrapper<"rmvproducer"_n, &system_contract::rmvproducer>;
          using updtrevision_action = eosio::action_wrapper<"updtrevision"_n, &system_contract::updtrevision>;

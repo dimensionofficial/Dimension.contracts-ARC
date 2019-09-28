@@ -75,6 +75,35 @@ namespace eosiosystem {
    }
 
    using namespace eosio;
+
+
+   void system_contract::staketobp( const name owner ) {
+       require_auth( owner );
+       const auto ct = current_time_point();
+
+       auto prod3 = _producers3.find( owner.value );
+       check(prod3 == _producers3.end(), "account already in _producers3");
+
+       INLINE_ACTION_SENDER(eosio::token, transfer)(
+          token_account, { {owner, active_permission} },
+          { owner, bpstk_account, asset(10000, core_symbol()), "stake 1.0000 EON to bp" }
+       );
+
+
+
+       prod3 = _producers3.emplace( owner, [&]( producer_info3& info  ) {
+            info.owner          = owner;
+            info.bp_staked      = 10000;
+            info.stake_time     = ct;
+            info.total_yeas     = 0;
+            info.total_nays     = 0;
+            info.is_bp          = false;
+            info.status         = 0;
+       });
+
+
+   }
+
    void system_contract::claimrewards( const name owner ) {
       require_auth( owner );
 
