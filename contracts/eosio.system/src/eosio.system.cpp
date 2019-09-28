@@ -16,6 +16,7 @@ namespace eosiosystem {
     _producers(_self, _self.value),
     _producers2(_self, _self.value),
     _producers3(_self, _self.value),
+    _proposals(_self, _self.value),
     _global(_self, _self.value),
     _global2(_self, _self.value),
     _global3(_self, _self.value),
@@ -474,5 +475,5 @@ EOSIO_DISPATCH( eosiosystem::system_contract,
      // voting.cpp
      (regproducer)(unregprod)(voteproducer)(regproxy)
      // producer_pay.cpp
-     (onblock)(staketobp)(claimrewards)
+     (onblock)(newproposal)(staketobp)(claimrewards)
 )

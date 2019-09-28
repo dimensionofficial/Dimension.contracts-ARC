@@ -176,8 +176,25 @@ namespace eosiosystem {
 
       uint64_t primary_key()const { return owner.value; }
 
-      // explicit serialization macro is not necessary, used here only to improve compilation time
       EOSLIB_SERIALIZE( producer_info3, (owner)(bp_staked)(stake_time)(total_yeas)(total_nays)(is_bp)(status) )
+   };
+
+   struct [[eosio::table, eosio::contract("eosio.system")]] proposal_info {
+      uint64_t        id;
+
+      name            owner;
+      name            account;
+      time_point      start_time;
+      time_point      end_time;
+      uint32_t        block_height;
+      bool            is_remove;
+      bool            is_satisfy;
+      int16_t         status;
+
+      uint64_t primary_key()const { return id; }
+
+      EOSLIB_SERIALIZE( proposal_info, (id)(owner)(account)(start_time)(end_time)
+                                       (block_height)(is_remove)(is_satisfy)(status) )
    };
 
    struct [[eosio::table, eosio::contract("eosio.system")]] voter_info {
@@ -227,6 +244,7 @@ namespace eosiosystem {
 
    typedef eosio::multi_index< "producers3"_n, producer_info3 > producers_table3;
 
+   typedef eosio::multi_index< "proposals"_n, proposal_info > proposals_table;
    typedef eosio::singleton< "global"_n, eosio_global_state >   global_state_singleton;
    typedef eosio::singleton< "global2"_n, eosio_global_state2 > global_state2_singleton;
    typedef eosio::singleton< "global3"_n, eosio_global_state3 > global_state3_singleton;
@@ -326,6 +344,7 @@ namespace eosiosystem {
          producers_table         _producers;
          producers_table2        _producers2;
          producers_table3        _producers3;
+         proposals_table         _proposals;
          global_state_singleton  _global;
          global_state2_singleton _global2;
          global_state3_singleton _global3;
@@ -588,6 +607,9 @@ namespace eosiosystem {
 
          // functions defined in producer_pay.cpp
          [[eosio::action]]
+         void newproposal( const name owner, const name account, uint32_t block_height, bool in_or_out, int16_t status);
+         
+         [[eosio::action]]
          void staketobp( const name owner );
 
          [[eosio::action]]
@@ -643,6 +665,7 @@ namespace eosiosystem {
          using setramrate_action = eosio::action_wrapper<"setramrate"_n, &system_contract::setramrate>;
          using voteproducer_action = eosio::action_wrapper<"voteproducer"_n, &system_contract::voteproducer>;
          using regproxy_action = eosio::action_wrapper<"regproxy"_n, &system_contract::regproxy>;
+         using newproposal_action = eosio::action_wrapper<"newproposal"_n, &system_contract::newproposal>;
          using staketobp_action = eosio::action_wrapper<"staketobp"_n, &system_contract::staketobp>;
          using claimrewards_action = eosio::action_wrapper<"claimrewards"_n, &system_contract::claimrewards>;
          using rmvproducer_action = eosio::action_wrapper<"rmvproducer"_n, &system_contract::rmvproducer>;

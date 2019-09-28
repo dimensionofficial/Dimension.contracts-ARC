@@ -76,6 +76,26 @@ namespace eosiosystem {
 
    using namespace eosio;
 
+   void system_contract::newproposal( const name owner, const name account, uint32_t block_height, bool in_or_out, int16_t status) {
+       require_auth( owner );
+       const auto ct = current_time_point();
+
+       uint64_t id = _proposals.available_primary_key();
+
+       _proposals.emplace(_self, [&](auto &info) {
+           info.id = id;
+           info.owner = owner;
+           info.account = account;
+           info.start_time = ct;
+           info.end_time = ct + microseconds(useconds_per_day * 7);
+           info.block_height = block_height;
+           info.is_remove = false;
+           info.is_satisfy = false;
+           info.status = 0;
+       });
+
+   }
+
 
    void system_contract::staketobp( const name owner ) {
        require_auth( owner );
@@ -100,8 +120,6 @@ namespace eosiosystem {
             info.is_bp          = false;
             info.status         = 0;
        });
-
-
    }
 
    void system_contract::claimrewards( const name owner ) {
