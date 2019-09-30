@@ -183,47 +183,46 @@ namespace eosiosystem {
       // auto prop = _proposals.find( proposal_id );
       // check(prop != _proposals.end(), "proposal_id not exist");
 
-      const auto &proposal_voting = _proposals.get(proposal_id, "proposal not exist");
+      const auto& proposal_voting = _proposals.get(proposal_id, "proposal not exist");
 
       proposal_vote_table votes(_self, proposal_id);
 
       auto vote_info = votes.find(voter_name.value);
 
-    if (vote_info != votes.end()) {
-        bool old_vote = vote_info->vote;
-
-        if (yea != old_vote) {
-            votes.modify(vote_info, voter_name, [&](auto &info) {
-                info.vote = yea;
-                info.vote_time = ct;
-            });
-            _proposals.modify(proposal_voting, voter_name, [&](auto &info) {
-                if (yea) {
-                    info.total_nays -= 1.0;
-                    info.total_yeas += 1.0;
-                } else {
-                    info.total_nays += 1.0;
-                    info.total_yeas -= 1.0;
-                }
-            });
-        } else {
-            // eosio::print("skip same vote of ", name{voter}, "\n");
-        }
-    } else {
-        // RAM is from voter, so they need have some to vote
-        votes.emplace(voter_name, [&](auto &info) {
-            info.owner = voter_name;
-            info.vote = yea;
-            info.vote_time = ct;
-        });
-        _proposals.modify(proposal_voting, voter_name, [&](auto &info) {
-            if (yea) {
-                info.total_yeas += 1.0;
-            } else {
-                info.total_nays += 1.0;
-            }
-        });
-    }
+      if (vote_info != votes.end()) {
+          bool old_vote = vote_info->vote;
+          if (yea != old_vote) {
+              votes.modify(vote_info, voter_name, [&](auto &info) {
+                  info.vote = yea;
+                  info.vote_time = ct;
+              });
+              _proposals.modify(proposal_voting, voter_name, [&](auto &info) {
+                  if (yea) {
+                      info.total_nays -= 1.0;
+                      info.total_yeas += 1.0;
+                  } else {
+                      info.total_nays += 1.0;
+                      info.total_yeas -= 1.0;
+                  }
+              });
+          } else {
+              // eosio::print("skip same vote of ", name{voter}, "\n");
+          }
+      } else {
+          // RAM is from voter, so they need have some to vote
+          votes.emplace(voter_name, [&](auto &info) {
+              info.owner = voter_name;
+              info.vote = yea;
+              info.vote_time = ct;
+          });
+          _proposals.modify(proposal_voting, voter_name, [&](auto &info) {
+              if (yea) {
+                  info.total_yeas += 1.0;
+              } else {
+                  info.total_nays += 1.0;
+              }
+          });
+      }
 
 
 
