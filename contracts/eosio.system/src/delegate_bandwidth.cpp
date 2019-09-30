@@ -452,7 +452,19 @@ namespace eosiosystem {
       check( stake_net_quantity.amount + stake_cpu_quantity.amount > 0, "must stake a positive amount" );
       check( !transfer || from != receiver, "cannot use transfer flag if delegating to self" );
 
+      name change_account = transfer ? receiver : from;
+
+      auto voter = _voters.find( change_account.value );
+      double pvote_weight_old = stake_to_proposal_votes( voter->staked );
+
       changebw( from, receiver, stake_net_quantity, stake_cpu_quantity, transfer);
+
+      double pvote_weight_new = stake_to_proposal_votes( voter->staked );
+
+      double weight = pvote_weight_new - pvote_weight_old;
+      if( weight != 0 ) {
+          update_proposal_votes(change_account, weight);
+      }
    } // delegatebw
 
    void system_contract::undelegatebw( name from, name receiver,
@@ -472,8 +484,9 @@ namespace eosiosystem {
 
       double pvote_weight_new = stake_to_proposal_votes( voter->staked );
 
-      if(pvote_weight_new - pvote_weight_old != 0) {
-            
+      double weight = pvote_weight_new - pvote_weight_old;
+      if( weight != 0 ) {
+          update_proposal_votes(from, weight);
       }
    } // undelegatebw
 
