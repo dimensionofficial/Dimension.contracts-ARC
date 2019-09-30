@@ -179,6 +179,17 @@ namespace eosiosystem {
       EOSLIB_SERIALIZE( producer_info3, (owner)(bp_staked)(stake_time)(total_yeas)(total_nays)(is_bp)(status) )
    };
 
+   struct [[eosio::table, eosio::contract("eosio.system")]] proposal_vote_info {
+      name            owner;
+      
+      bool            vote;
+      time_point      vote_time;
+
+      uint64_t primary_key()const { return owner.value; }
+
+      EOSLIB_SERIALIZE( proposal_vote_info, (owner)(vote)(vote_time) )
+   };
+
    struct [[eosio::table, eosio::contract("eosio.system")]] proposal_info {
       uint64_t        id;
 
@@ -245,6 +256,8 @@ namespace eosiosystem {
    typedef eosio::multi_index< "producers2"_n, producer_info2 > producers_table2;
 
    typedef eosio::multi_index< "producers3"_n, producer_info3 > producers_table3;
+
+   typedef eosio::multi_index< "propvote"_n, proposal_vote_info > proposal_vote_table;
 
    typedef eosio::multi_index< "proposals"_n, proposal_info > proposals_table;
    typedef eosio::singleton< "global"_n, eosio_global_state >   global_state_singleton;
