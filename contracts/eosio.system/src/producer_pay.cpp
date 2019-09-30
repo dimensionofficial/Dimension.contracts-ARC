@@ -76,10 +76,18 @@ namespace eosiosystem {
 
    using namespace eosio;
 
-   void system_contract::newproposal( const name owner, const name account, uint32_t block_height, bool is_remove, int16_t status) {
+
+   // type 1: add bp 2: remove bp 3: switch consensus
+
+   void system_contract::newproposal( const name owner, const name account, uint32_t block_height, int16_t type, int16_t status) {
        require_auth( owner );
        const auto ct = current_time_point();
 
+       auto prod3 = _producers3.find( owner.value );
+       check(prod3 != _producers3.end(), "only governance node can new proposal");
+       if(type == 1) {
+           check(owner == account, "can not add other account to bp");
+       }
 
        INLINE_ACTION_SENDER(eosio::token, transfer)(
           token_account, { {owner, active_permission} },
@@ -95,7 +103,7 @@ namespace eosiosystem {
            info.start_time = ct;
            info.end_time = ct + microseconds(useconds_per_day * 7);
            info.block_height = block_height;
-           info.is_remove = is_remove;
+           info.type = type;
            info.is_satisfy = false;
            info.status = 0;
            info.total_yeas     = 0;
