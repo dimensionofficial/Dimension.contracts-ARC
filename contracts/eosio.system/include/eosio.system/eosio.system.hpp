@@ -600,6 +600,9 @@ namespace eosiosystem {
          void setramrate( uint16_t bytes_per_block );
 
          [[eosio::action]]
+         void voteproposal( const name voter_name, const uint64_t proposal_id, const bool yea );
+
+         [[eosio::action]]
          void voteproducer( const name voter, const name proxy, const std::vector<name>& producers );
 
          [[eosio::action]]
@@ -666,6 +669,7 @@ namespace eosiosystem {
          using unregprod_action = eosio::action_wrapper<"unregprod"_n, &system_contract::unregprod>;
          using setram_action = eosio::action_wrapper<"setram"_n, &system_contract::setram>;
          using setramrate_action = eosio::action_wrapper<"setramrate"_n, &system_contract::setramrate>;
+         using voteproposal_action = eosio::action_wrapper<"voteproposal"_n, &system_contract::voteproposal>;
          using voteproducer_action = eosio::action_wrapper<"voteproducer"_n, &system_contract::voteproducer>;
          using regproxy_action = eosio::action_wrapper<"regproxy"_n, &system_contract::regproxy>;
          using newproposal_action = eosio::action_wrapper<"newproposal"_n, &system_contract::newproposal>;

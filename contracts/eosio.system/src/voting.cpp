@@ -174,6 +174,19 @@ namespace eosiosystem {
       return new_votepay_share;
    }
 
+
+   // 对提案投票
+   void system_contract::voteproposal( const name voter_name, const uint64_t proposal_id, const bool yea ) {
+      require_auth( voter_name );
+
+      auto prop = _proposals.find( proposal_id );
+      check(prop != _proposals.end(), "proposal_id not exist");
+
+
+      // vote_stake_updater( voter_name );
+      // update_votes( voter_name, proxy, producers, true );
+   }
+
    /**
     *  @pre producers must be sorted from lowest to highest and must be registered and active
     *  @pre if proxy is set then no producers can be voted for
