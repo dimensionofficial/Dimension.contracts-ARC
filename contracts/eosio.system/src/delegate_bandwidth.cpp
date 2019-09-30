@@ -465,8 +465,19 @@ namespace eosiosystem {
       check( _gstate.total_activated_stake >= min_activated_stake,
              "cannot undelegate bandwidth until the chain is activated (at least 15% of all tokens participate in voting)" );
 
+      auto voter = _voters.find( from.value );
+      double pvote_weight_old = stake_to_proposal_votes( voter->staked );
+
       changebw( from, receiver, -unstake_net_quantity, -unstake_cpu_quantity, false);
+
+      double pvote_weight_new = stake_to_proposal_votes( voter->staked );
+
+      if(pvote_weight_new - pvote_weight_old != 0) {
+            
+      }
    } // undelegatebw
+
+
 
 
    void system_contract::refund( const name owner ) {

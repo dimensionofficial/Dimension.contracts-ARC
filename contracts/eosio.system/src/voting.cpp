@@ -229,13 +229,30 @@ namespace eosiosystem {
 
 
    // 账号抵押的cpu&net映射为票数
-   double stake_to_proposal_votes( int64_t staked ) {
-         return double(staked);
+   double system_contract::stake_to_proposal_votes( int64_t staked ) {
+      return double(staked);
    }
 
+   // 重新计算用户投过票的proposal（未结束）的total_yeas,total_nays
+   void system_contract::update_proposal_votes( const name voter_name, double weight ) {
+      const auto ct = current_time_point();
 
-   void system_contract::update_proposal_votes( const name voter_name ) {
-         // 重新计算用户投过票的proposal（未结束）的total_yeas,total_nays
+      for(auto it = _proposals.begin(); it != _proposals.end(); ++it) {
+          if(it->end_time  <= ct) return;
+
+          proposal_vote_table pvotes(_self, it->id);
+          auto vote_info = pvotes.find(voter_name.value);
+
+          if (vote_info != pvotes.end()) {
+              _proposals.modify(it, voter_name, [&](auto& info){
+                  if(vote_info->vote == true) {
+                        info.total_yeas += weight;
+                  } else {
+                        info.total_nays += weight;
+                  }
+              });
+          }
+      }
    }
 
    /**
