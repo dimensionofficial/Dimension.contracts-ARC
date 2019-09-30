@@ -98,6 +98,8 @@ namespace eosiosystem {
            info.is_remove = is_remove;
            info.is_satisfy = false;
            info.status = 0;
+           info.total_yeas     = 0;
+           info.total_nays     = 0;
        });
 
    }
@@ -112,7 +114,7 @@ namespace eosiosystem {
 
        INLINE_ACTION_SENDER(eosio::token, transfer)(
           token_account, { {owner, active_permission} },
-          { owner, bpstk_account, asset(10000, core_symbol()), "stake 1.0000 EON to bp" }
+          { owner, bpstk_account, asset(10000, core_symbol()), "stake 1.0000 EON to governance node" }
        );
 
 

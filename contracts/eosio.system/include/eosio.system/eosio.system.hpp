@@ -190,11 +190,13 @@ namespace eosiosystem {
       bool            is_remove;
       bool            is_satisfy;
       int16_t         status;
+      double          total_yeas;
+      double          total_nays;
 
       uint64_t primary_key()const { return id; }
 
       EOSLIB_SERIALIZE( proposal_info, (id)(owner)(account)(start_time)(end_time)
-                                       (block_height)(is_remove)(is_satisfy)(status) )
+                                       (block_height)(is_remove)(is_satisfy)(status)(total_yeas)(total_nays) )
    };
 
    struct [[eosio::table, eosio::contract("eosio.system")]] voter_info {
