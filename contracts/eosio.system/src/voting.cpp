@@ -186,10 +186,10 @@ namespace eosiosystem {
       const auto& proposal_voting = _proposals.get(proposal_id, "proposal not exist");
 
       proposal_vote_table pvotes(_self, proposal_id);
-
       auto vote_info = pvotes.find(voter_name.value);
 
       auto voter = _voters.find( voter_name.value );
+      double pvote_weight = stake_to_proposal_votes( voter->staked );
 
       if (vote_info != pvotes.end()) {
           bool old_vote = vote_info->vote;
@@ -200,11 +200,11 @@ namespace eosiosystem {
               });
               _proposals.modify(proposal_voting, voter_name, [&](auto &info) {
                   if (yea) {
-                      info.total_nays -= 1.0;
-                      info.total_yeas += 1.0;
+                      info.total_nays -= pvote_weight;
+                      info.total_yeas += pvote_weight;
                   } else {
-                      info.total_nays += 1.0;
-                      info.total_yeas -= 1.0;
+                      info.total_nays += pvote_weight;
+                      info.total_yeas -= pvote_weight;
                   }
               });
           } else {
@@ -219,14 +219,16 @@ namespace eosiosystem {
           });
           _proposals.modify(proposal_voting, voter_name, [&](auto &info) {
               if (yea) {
-                  info.total_yeas += 1.0;
+                  info.total_yeas += pvote_weight;
               } else {
-                  info.total_nays += 1.0;
+                  info.total_nays += pvote_weight;
               }
           });
       }
    }
 
+
+   // 账号抵押的cpu&net映射为票数
    double stake_to_proposal_votes( int64_t staked ) {
          return double(staked);
    }
