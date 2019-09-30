@@ -101,7 +101,11 @@ namespace eosiosystem {
            info.owner = owner;
            info.account = account;
            info.start_time = ct;
-           info.end_time = ct + microseconds(useconds_per_day * 7);
+           if(type == 1 || type == 2) {
+               info.end_time = ct + microseconds(useconds_per_day * 15);
+           } else {
+               info.end_time = ct + microseconds(useconds_per_day * 30);
+           }
            info.block_height = block_height;
            info.type = type;
            info.is_satisfy = false;
