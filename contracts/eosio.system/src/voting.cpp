@@ -185,14 +185,16 @@ namespace eosiosystem {
 
       const auto& proposal_voting = _proposals.get(proposal_id, "proposal not exist");
 
-      proposal_vote_table votes(_self, proposal_id);
+      proposal_vote_table pvotes(_self, proposal_id);
 
-      auto vote_info = votes.find(voter_name.value);
+      auto vote_info = pvotes.find(voter_name.value);
 
-      if (vote_info != votes.end()) {
+      auto voter = _voters.find( voter_name.value );
+
+      if (vote_info != pvotes.end()) {
           bool old_vote = vote_info->vote;
           if (yea != old_vote) {
-              votes.modify(vote_info, voter_name, [&](auto &info) {
+              pvotes.modify(vote_info, voter_name, [&](auto &info) {
                   info.vote = yea;
                   info.vote_time = ct;
               });
@@ -210,7 +212,7 @@ namespace eosiosystem {
           }
       } else {
           // RAM is from voter, so they need have some to vote
-          votes.emplace(voter_name, [&](auto &info) {
+          pvotes.emplace(voter_name, [&](auto &info) {
               info.owner = voter_name;
               info.vote = yea;
               info.vote_time = ct;
@@ -223,13 +225,15 @@ namespace eosiosystem {
               }
           });
       }
+   }
+
+   double stake_to_proposal_votes( int64_t staked ) {
+         return double(staked);
+   }
 
 
-
-
-
-      // vote_stake_updater( voter_name );
-      // update_votes( voter_name, proxy, producers, true );
+   void system_contract::update_proposal_votes( const name voter_name ) {
+         // 重新计算用户投过票的proposal（未结束）的total_yeas,total_nays
    }
 
    /**
