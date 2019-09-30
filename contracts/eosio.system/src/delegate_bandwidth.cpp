@@ -461,10 +461,10 @@ namespace eosiosystem {
 
       double pvote_weight_new = stake_to_proposal_votes( voter->staked );
 
-      double weight = pvote_weight_new - pvote_weight_old;
-      if( weight != 0 ) {
-          update_proposal_votes(change_account, weight);
-      }
+      // double weight = pvote_weight_new - pvote_weight_old;
+      // if( weight != 0 ) {
+      //     update_proposal_votes(change_account, weight);
+      // }
    } // delegatebw
 
    void system_contract::undelegatebw( name from, name receiver,
