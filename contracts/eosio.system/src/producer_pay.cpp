@@ -103,7 +103,7 @@ namespace eosiosystem {
    }
 
 
-   void system_contract::staketobp( const name owner ) {
+   void system_contract::staketognode( const name owner ) {
        require_auth( owner );
        const auto ct = current_time_point();
 

@@ -611,7 +611,7 @@ namespace eosiosystem {
          void newproposal( const name owner, const name account, uint32_t block_height, bool is_remove, int16_t status);
          
          [[eosio::action]]
-         void staketobp( const name owner );
+         void staketognode( const name owner );
 
          [[eosio::action]]
          void claimrewards( const name owner );
@@ -667,7 +667,7 @@ namespace eosiosystem {
          using voteproducer_action = eosio::action_wrapper<"voteproducer"_n, &system_contract::voteproducer>;
          using regproxy_action = eosio::action_wrapper<"regproxy"_n, &system_contract::regproxy>;
          using newproposal_action = eosio::action_wrapper<"newproposal"_n, &system_contract::newproposal>;
-         using staketobp_action = eosio::action_wrapper<"staketobp"_n, &system_contract::staketobp>;
+         using staketognode_action = eosio::action_wrapper<"staketognode"_n, &system_contract::staketognode>;
          using claimrewards_action = eosio::action_wrapper<"claimrewards"_n, &system_contract::claimrewards>;
          using rmvproducer_action = eosio::action_wrapper<"rmvproducer"_n, &system_contract::rmvproducer>;
          using updtrevision_action = eosio::action_wrapper<"updtrevision"_n, &system_contract::updtrevision>;
