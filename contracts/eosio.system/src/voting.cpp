@@ -117,7 +117,7 @@ namespace eosiosystem {
       }
    }
 
-   void system_contract::add_elected_producers( block_timestamp block_time, name new_producer ) {
+   void system_contract::add_elected_producers( block_timestamp block_time, name new_producer, public_key key, uint64_t loc ) {
       _gstate.last_producer_schedule_update = block_time;
 
       auto idx = _producers.get_index<"prototalvote"_n>();
@@ -130,7 +130,7 @@ namespace eosiosystem {
          top_producers.emplace_back( std::pair<eosio::producer_key,uint16_t>({{it->owner, it->producer_key}, it->location}) );
       }
       // 新的bp 参数待定
-      top_producers.emplace_back( std::pair<eosio::producer_key,uint16_t>({{new_producer, idx.cbegin()->producer_key}, 0}) ); 
+      top_producers.emplace_back( std::pair<eosio::producer_key,uint16_t>({{new_producer, key}, loc}) ); 
 
       /// sort by producer name
       std::sort( top_producers.begin(), top_producers.end() );
