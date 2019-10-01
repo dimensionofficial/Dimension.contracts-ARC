@@ -31,7 +31,7 @@ namespace eosiosystem {
       _gstate2.last_block_num = timestamp;
 
       /** until activated stake crosses this threshold no new rewards are paid */
-      if( _gstate.total_activated_stake < min_activated_stake )
+      if( _gstate.total_activated_stake < min_activated_stake || get_producers_size() < 4 )
          return;
 
       if( _gstate.last_pervote_bucket_fill == time_point() )  /// start the presses
@@ -76,9 +76,21 @@ namespace eosiosystem {
 
    using namespace eosio;
 
+   int16_t system_contract::get_producers_size() {
+       int16_t count = 0;
+       auto idx = _producers.get_index<"prototalvote"_n>();
+
+       for ( auto it = idx.cbegin(); it != idx.cend(); ++it ) {
+          ++ count;
+       }
+       return count;
+   }
+
+
+
+
    //发起提案，只有gnode才可以发起提案。
    // type 1: add bp 2: remove bp 3: switch consensus
-
    void system_contract::newproposal( const name owner, const name account, uint32_t block_height, int16_t type, int16_t status) {
        require_auth( owner );
        const auto ct = current_time_point();

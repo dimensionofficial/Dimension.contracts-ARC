@@ -96,7 +96,7 @@ namespace eosiosystem {
       for ( auto it = idx.cbegin(); it != idx.cend() && top_producers.size() < 21 && 0 < it->total_votes && it->active(); ++it ) {
          top_producers.emplace_back( std::pair<eosio::producer_key,uint16_t>({{it->owner, it->producer_key}, it->location}) );
       }
-
+      // bp数量不能减少？
       // if ( top_producers.size() < _gstate.last_producer_schedule_size ) {
       //    return;
       // }

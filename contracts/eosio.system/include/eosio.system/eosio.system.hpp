@@ -758,6 +758,9 @@ namespace eosiosystem {
          void update_proposal_votes( const name voter_name, double weight );
 
 
+         // defined in prooducer_pay.cpp
+         int16_t get_producers_size();
+
          // defined in voting.hpp
          void update_elected_producers( block_timestamp timestamp );
          double stake_to_proposal_votes( int64_t staked );
