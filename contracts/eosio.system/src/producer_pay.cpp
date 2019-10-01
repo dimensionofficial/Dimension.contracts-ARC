@@ -129,7 +129,7 @@ namespace eosiosystem {
    }
 
    // 抵押EON成为governance node, 可以发起提案
-   void system_contract::staketognode( const name owner ) {
+   void system_contract::staketognode( const name owner, const public_key& producer_key, const std::string& url, uint16_t location ) {
        require_auth( owner );
        const auto ct = current_time_point();
 
@@ -147,10 +147,11 @@ namespace eosiosystem {
             info.owner          = owner;
             info.bp_staked      = 10000;
             info.stake_time     = ct;
-            info.total_yeas     = 0;
-            info.total_nays     = 0;
             info.is_bp          = false;
             info.status         = 0;
+            info.producer_key   = producer_key;
+            info.url            = url;
+            info.location       = location;
        });
    }
    // 不增发

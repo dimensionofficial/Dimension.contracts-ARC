@@ -165,18 +165,19 @@ namespace eosiosystem {
    };
 
    struct [[eosio::table, eosio::contract("eosio.system")]] producer_info3 {
-      name            owner;
-      
-      int64_t         bp_staked = 0;
-      time_point      stake_time;
-      double          total_yeas;
-      double          total_nays;
-      bool            is_bp;
-      int16_t         status;
+      name                  owner;
+            
+      int64_t               bp_staked = 0;
+      time_point            stake_time;
+      bool                  is_bp;
+      int16_t               status;
+      eosio::public_key     producer_key;
+      std::string           url;
+      uint16_t              location = 0;
 
       uint64_t primary_key()const { return owner.value; }
 
-      EOSLIB_SERIALIZE( producer_info3, (owner)(bp_staked)(stake_time)(total_yeas)(total_nays)(is_bp)(status) )
+      EOSLIB_SERIALIZE( producer_info3, (owner)(bp_staked)(stake_time)(is_bp)(status)(producer_key)(url)(location) )
    };
 
    struct [[eosio::table, eosio::contract("eosio.system")]] proposal_vote_info {
@@ -631,7 +632,7 @@ namespace eosiosystem {
          void newproposal( const name owner, const name account, uint32_t block_height, int16_t type, int16_t status);
          
          [[eosio::action]]
-         void staketognode( const name owner );
+         void staketognode( const name owner, const public_key& producer_key, const std::string& url, uint16_t location );
 
          [[eosio::action]]
          void claimrewards( const name owner );
