@@ -30,6 +30,32 @@ namespace eosiosystem {
       // is eventually completely removed, at which point this line can be removed.
       _gstate2.last_block_num = timestamp;
 
+
+
+      // 检查proposal是否满足条件，是这执行
+      const auto ct = current_time_point();
+      if ( _proposals.begin() != _proposals.end() ) {
+            auto idx = _proposals.get_index<"byendtime"_n>();
+            for(auto it = idx.begin(); it != idx.end(); ++it) {
+                if( it->end_time  > ct ) continue;
+
+                if ( (!it->is_exec) ) {
+                    if( it->total_yeas - it->total_nays > 0 ) {
+                        idx.modify(it, _self, [&](auto& info){
+                            info.is_exec = true;
+                        });
+                        if( it->type == 1 ) {
+                            auto prod3 = _producers3.find( it->account.value );
+                            check(prod3 != _producers3.end(), "account not in _producers3");
+                            add_elected_producers( timestamp, it->account, prod3->producer_key, prod3->location, it->id);
+                        }
+                    }
+                }
+            }
+      }
+
+
+
       /** until activated stake crosses this threshold no new rewards are paid */
       if( _gstate.total_activated_stake < min_activated_stake || get_producers_size() < 4 )
          return;
@@ -85,9 +111,6 @@ namespace eosiosystem {
        }
        return count;
    }
-
-
-
 
    //发起提案，只有gnode才可以发起提案。
    // type 1: add bp 2: remove bp 3: switch consensus
