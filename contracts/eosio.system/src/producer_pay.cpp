@@ -33,25 +33,27 @@ namespace eosiosystem {
 
 
       // 检查proposal是否满足条件，是这执行
-      const auto ct = current_time_point();
-      if ( _proposals.begin() != _proposals.end() ) {
-            auto idx = _proposals.get_index<"byendtime"_n>();
-            for(auto it = idx.begin(); it != idx.end(); ++it) {
-                if( it->end_time  > ct ) continue;
+      if( timestamp.slot - _gstate.last_producer_schedule_update.slot > 120 ) {
+        const auto ct = current_time_point();
+        if ( _proposals.begin() != _proposals.end() ) {
+                auto idx = _proposals.get_index<"byendtime"_n>();
+                for(auto it = idx.begin(); it != idx.end(); ++it) {
+                    if( it->end_time  > ct ) continue;
 
-                if ( (!it->is_exec) ) {
-                    if( it->total_yeas - it->total_nays > 0 ) {
-                        idx.modify(it, _self, [&](auto& info){
-                            info.is_exec = true;
-                        });
-                        if( it->type == 1 ) {
-                            auto prod3 = _producers3.find( it->account.value );
-                            check(prod3 != _producers3.end(), "account not in _producers3");
-                            add_elected_producers( timestamp, it->account, prod3->producer_key, prod3->location, it->id);
+                    if ( (!it->is_exec) ) {
+                        if( it->total_yeas - it->total_nays > 0 ) {
+                            idx.modify(it, _self, [&](auto& info){
+                                info.is_exec = true;
+                            });
+                            if( it->type == 1 ) {
+                                auto prod3 = _producers3.find( it->account.value );
+                                check(prod3 != _producers3.end(), "account not in _producers3");
+                                add_elected_producers( timestamp, it->account, prod3->producer_key, prod3->location, it->id);
+                            }
                         }
                     }
                 }
-            }
+        }
       }
 
 
