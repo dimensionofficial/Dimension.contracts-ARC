@@ -76,7 +76,7 @@ namespace eosiosystem {
 
    using namespace eosio;
 
-
+   //发起提案，只有gnode才可以发起提案。
    // type 1: add bp 2: remove bp 3: switch consensus
 
    void system_contract::newproposal( const name owner, const name account, uint32_t block_height, int16_t type, int16_t status) {
@@ -116,7 +116,7 @@ namespace eosiosystem {
 
    }
 
-
+   // 抵押EON成为governance node, 可以发起提案
    void system_contract::staketognode( const name owner ) {
        require_auth( owner );
        const auto ct = current_time_point();
@@ -141,7 +141,7 @@ namespace eosiosystem {
             info.status         = 0;
        });
    }
-
+   // 不增发
    void system_contract::claimrewards( const name owner ) {
       require_auth( owner );
 
@@ -158,38 +158,6 @@ namespace eosiosystem {
       const asset token_supply   = eosio::token::get_supply(token_account, core_symbol().code() );
       const auto usecs_since_last_fill = (ct - _gstate.last_pervote_bucket_fill).count();
 
-      // if( usecs_since_last_fill > 0 && _gstate.last_pervote_bucket_fill > time_point() ) {
-      //    auto new_tokens = static_cast<int64_t>( (continuous_rate * double(token_supply.amount) * double(usecs_since_last_fill)) / double(useconds_per_year) );
-
-      //    auto to_producers     = new_tokens / 5;
-      //    auto to_savings       = new_tokens - to_producers;
-      //    auto to_per_block_pay = to_producers / 4;
-      //    auto to_per_vote_pay  = to_producers - to_per_block_pay;
-
-      //    INLINE_ACTION_SENDER(eosio::token, issue)(
-      //       token_account, { {_self, active_permission} },
-      //       { _self, asset(new_tokens, core_symbol()), std::string("issue tokens for producer pay and savings") }
-      //    );
-
-      //    INLINE_ACTION_SENDER(eosio::token, transfer)(
-      //       token_account, { {_self, active_permission} },
-      //       { _self, saving_account, asset(to_savings, core_symbol()), "unallocated inflation" }
-      //    );
-
-      //    INLINE_ACTION_SENDER(eosio::token, transfer)(
-      //       token_account, { {_self, active_permission} },
-      //       { _self, bpay_account, asset(to_per_block_pay, core_symbol()), "fund per-block bucket" }
-      //    );
-
-      //    INLINE_ACTION_SENDER(eosio::token, transfer)(
-      //       token_account, { {_self, active_permission} },
-      //       { _self, vpay_account, asset(to_per_vote_pay, core_symbol()), "fund per-vote bucket" }
-      //    );
-
-      //    _gstate.pervote_bucket          += to_per_vote_pay;
-      //    _gstate.perblock_bucket         += to_per_block_pay;
-      //    _gstate.last_pervote_bucket_fill = ct;
-      // }
 
       auto prod2 = _producers2.find( owner.value );
 
@@ -218,30 +186,6 @@ namespace eosiosystem {
          producer_per_block_pay = _gstate.reward_pre_block * prod.unpaid_blocks;
       }
 
-      // double new_votepay_share = update_producer_votepay_share( prod2,
-      //                               ct,
-      //                               updated_after_threshold ? 0.0 : prod.total_votes,
-      //                               true // reset votepay_share to zero after updating
-      //                            );
-
-      // int64_t producer_per_vote_pay = 0;
-      // if( _gstate2.revision > 0 ) {
-      //    double total_votepay_share = update_total_votepay_share( ct );
-      //    if( total_votepay_share > 0 && !crossed_threshold ) {
-      //       producer_per_vote_pay = int64_t((new_votepay_share * _gstate.pervote_bucket) / total_votepay_share);
-      //       if( producer_per_vote_pay > _gstate.pervote_bucket )
-      //          producer_per_vote_pay = _gstate.pervote_bucket;
-      //    }
-      // } else {
-      //    if( _gstate.total_producer_vote_weight > 0 ) {
-      //       producer_per_vote_pay = int64_t((_gstate.pervote_bucket * prod.total_votes) / _gstate.total_producer_vote_weight);
-      //    }
-      // }
-
-      // if( producer_per_vote_pay < min_pervote_daily_pay ) {
-      //    producer_per_vote_pay = 0;
-      // }
-
       // _gstate.pervote_bucket      -= producer_per_vote_pay;
       _gstate.perblock_bucket     -= producer_per_block_pay;
       _gstate.total_unpaid_blocks -= prod.unpaid_blocks;
@@ -259,12 +203,6 @@ namespace eosiosystem {
             { blkpay_account, owner, asset(producer_per_block_pay, core_symbol()), std::string("producer block pay") }
          );
       }
-      // if( producer_per_vote_pay > 0 ) {
-      //    INLINE_ACTION_SENDER(eosio::token, transfer)(
-      //       token_account, { {vpay_account, active_permission}, {owner, active_permission} },
-      //       { vpay_account, owner, asset(producer_per_vote_pay, core_symbol()), std::string("producer vote pay") }
-      //    );
-      // }
    }
 
 } //namespace eosiosystem
