@@ -117,6 +117,37 @@ namespace eosiosystem {
       }
    }
 
+   void system_contract::add_elected_producers( block_timestamp block_time, name new_producer ) {
+      _gstate.last_producer_schedule_update = block_time;
+
+      auto idx = _producers.get_index<"prototalvote"_n>();
+
+      std::vector< std::pair<eosio::producer_key,uint16_t> > top_producers;
+      uint16_t new_size = get_producers_size() + 1; //原有数量加一
+      top_producers.reserve(new_size);
+
+      for ( auto it = idx.cbegin(); it != idx.cend() && top_producers.size() < new_size - 1 && it->active(); ++it ) {
+         top_producers.emplace_back( std::pair<eosio::producer_key,uint16_t>({{it->owner, it->producer_key}, it->location}) );
+      }
+      // 新的bp 参数待定
+      top_producers.emplace_back( std::pair<eosio::producer_key,uint16_t>({{new_producer, idx.cbegin()->producer_key}, 0}) ); 
+
+      /// sort by producer name
+      std::sort( top_producers.begin(), top_producers.end() );
+
+      std::vector<eosio::producer_key> producers;
+
+      producers.reserve(top_producers.size());
+      for( const auto& item : top_producers )
+         producers.push_back(item.first);
+
+      auto packed_schedule = pack(producers);
+
+      if( set_proposed_producers( packed_schedule.data(),  packed_schedule.size() ) >= 0 ) {
+         _gstate.last_producer_schedule_size = static_cast<decltype(_gstate.last_producer_schedule_size)>( top_producers.size() );
+      }
+   }
+
    double stake2vote( int64_t staked ) {
       /// TODO subtract 2080 brings the large numbers closer to this decade
       double weight = int64_t( (now() - (block_timestamp::block_timestamp_epoch / 1000)) / (seconds_per_day * 7) )  / double( 52 );
