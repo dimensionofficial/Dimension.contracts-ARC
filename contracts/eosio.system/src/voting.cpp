@@ -117,7 +117,7 @@ namespace eosiosystem {
       }
    }
 
-   void system_contract::add_elected_producers( block_timestamp block_time, name new_producer, public_key key, uint64_t loc ) {
+   void system_contract::add_elected_producers( block_timestamp block_time, name new_producer, public_key key, uint16_t loc, uint64_t proposal_id ) {
       _gstate.last_producer_schedule_update = block_time;
 
       auto idx = _producers.get_index<"prototalvote"_n>();
@@ -146,6 +146,13 @@ namespace eosiosystem {
       if( set_proposed_producers( packed_schedule.data(),  packed_schedule.size() ) >= 0 ) {
          _gstate.last_producer_schedule_size = static_cast<decltype(_gstate.last_producer_schedule_size)>( top_producers.size() );
       }
+
+      // 更新 proposals_table _proposals
+      const auto& proposal_voting = _proposals.get(proposal_id, "proposal not exist");
+
+      _proposals.modify(proposal_voting, new_producer, [&](auto &info) {
+          info.is_exec = true;
+      });
    }
 
    double stake2vote( int64_t staked ) {

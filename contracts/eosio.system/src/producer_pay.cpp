@@ -121,6 +121,7 @@ namespace eosiosystem {
            info.block_height = block_height;
            info.type = type;
            info.is_satisfy = false;
+           info.is_exec = false;
            info.status = 0;
            info.total_yeas     = 0;
            info.total_nays     = 0;
