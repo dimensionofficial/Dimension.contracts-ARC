@@ -442,6 +442,34 @@ namespace eosiosystem {
       }
    }
 
+
+   // 重新计算用户投过票的proposal（未结束）的total_yeas,total_nays
+   void system_contract::update_proposal_votes( const name voter_name, double weight ) {
+      // const auto ct = current_time_point();
+      
+      // if ( _proposals.begin() != _proposals.end() ) {
+            // auto idx = _proposals.get_index<"byendtime"_n>();
+            // auto it = idx.begin();
+            // for(auto it = idx.cbegin(); it != idx.cend(); ++it) {
+            //     if(it->end_time  <= ct) return;
+
+            //     proposal_vote_table pvotes(_self, it->id);
+            //     auto vote_info = pvotes.find(voter_name.value);
+
+            //     if (vote_info != pvotes.end()) {
+            //         idx.modify(it, voter_name, [&](auto& info){
+            //             if(vote_info->vote == true) {
+            //                   info.total_yeas += weight;
+            //             } else {
+            //                   info.total_nays += weight;
+            //             }
+            //         });
+            //     }
+            // }
+      // }
+   }
+
+
    void system_contract::delegatebw( name from, name receiver,
                                      asset stake_net_quantity,
                                      asset stake_cpu_quantity, bool transfer )
@@ -461,10 +489,10 @@ namespace eosiosystem {
 
       double pvote_weight_new = stake_to_proposal_votes( voter->staked );
 
-      // double weight = pvote_weight_new - pvote_weight_old;
-      // if( weight != 0 ) {
-      //     update_proposal_votes(change_account, weight);
-      // }
+      double weight = pvote_weight_new - pvote_weight_old;
+      if( weight != 0 ) {
+          update_proposal_votes(change_account, weight);
+      }
    } // delegatebw
 
    void system_contract::undelegatebw( name from, name receiver,

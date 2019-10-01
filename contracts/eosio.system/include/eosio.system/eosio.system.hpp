@@ -205,6 +205,7 @@ namespace eosiosystem {
       double          total_nays;
 
       uint64_t primary_key()const { return id; }
+      uint64_t by_end_time()const { return end_time.elapsed.count(); }
 
       EOSLIB_SERIALIZE( proposal_info, (id)(owner)(account)(start_time)(end_time)
                                        (block_height)(type)(is_satisfy)(status)(total_yeas)(total_nays) )
@@ -251,15 +252,16 @@ namespace eosiosystem {
 
 
    typedef eosio::multi_index< "producers"_n, producer_info,
-                               indexed_by<"prototalvote"_n, const_mem_fun<producer_info, double, &producer_info::by_votes>  >
-                             > producers_table;
+                               indexed_by<"prototalvote"_n, const_mem_fun<producer_info, double, &producer_info::by_votes> > > producers_table;
    typedef eosio::multi_index< "producers2"_n, producer_info2 > producers_table2;
 
    typedef eosio::multi_index< "producers3"_n, producer_info3 > producers_table3;
 
    typedef eosio::multi_index< "propvote"_n, proposal_vote_info > proposal_vote_table;
 
-   typedef eosio::multi_index< "proposals"_n, proposal_info > proposals_table;
+   typedef eosio::multi_index< "proposals"_n, proposal_info,
+                               indexed_by<"byendtime"_n, const_mem_fun<proposal_info, uint64_t, &proposal_info::by_end_time>  >
+                               > proposals_table;
    typedef eosio::singleton< "global"_n, eosio_global_state >   global_state_singleton;
    typedef eosio::singleton< "global2"_n, eosio_global_state2 > global_state2_singleton;
    typedef eosio::singleton< "global3"_n, eosio_global_state3 > global_state3_singleton;
@@ -753,11 +755,12 @@ namespace eosiosystem {
          void changebw( name from, name receiver,
                         asset stake_net_quantity, asset stake_cpu_quantity, bool transfer );
          void update_voting_power( const name& voter, const asset& total_update );
+         void update_proposal_votes( const name voter_name, double weight );
+
 
          // defined in voting.hpp
          void update_elected_producers( block_timestamp timestamp );
          double stake_to_proposal_votes( int64_t staked );
-         void update_proposal_votes( const name voter_name, double weight );
          void update_votes( const name voter, const name proxy, const std::vector<name>& producers, bool voting );
          void propagate_weight_change( const voter_info& voter );
          double update_producer_votepay_share( const producers_table2::const_iterator& prod_itr,
