@@ -88,6 +88,7 @@ namespace eosiosystem {
       uint64_t             total_ram_bytes_reserved = 0;
       int64_t              total_ram_stake = 0;
 
+      uint64_t             test = 0;
       block_timestamp      last_producer_schedule_update;
       time_point           last_pervote_bucket_fill;
       int64_t              pervote_bucket = 0;
@@ -99,14 +100,15 @@ namespace eosiosystem {
       double               total_producer_vote_weight = 0; /// the sum of all producer votes
       block_timestamp      last_name_close;
       int64_t              reward_pre_block = 1;
+      int64_t              proposal_num = 0;
 
       // explicit serialization macro is not necessary, used here only to improve compilation time
       EOSLIB_SERIALIZE_DERIVED( eosio_global_state, eosio::blockchain_parameters,
                                 (max_ram_size)(total_ram_bytes_reserved)(total_ram_stake)
-                                (last_producer_schedule_update)(last_pervote_bucket_fill)
+                                (test)(last_producer_schedule_update)(last_pervote_bucket_fill)
                                 (pervote_bucket)(perblock_bucket)(total_unpaid_blocks)(total_activated_stake)(thresh_activated_stake_time)
                                 (last_producer_schedule_size)(total_producer_vote_weight)(last_name_close)
-                                (reward_pre_block) )
+                                (reward_pre_block)(proposal_num) )
    };
 
    /**
@@ -630,6 +632,9 @@ namespace eosiosystem {
 
          // functions defined in producer_pay.cpp
          [[eosio::action]]
+         void execproposal( const name owner, uint64_t proposal_id );
+
+         [[eosio::action]]
          void newproposal( const name owner, const name account, uint32_t block_height, int16_t type, int16_t status);
          
          [[eosio::action]]
@@ -689,6 +694,7 @@ namespace eosiosystem {
          using voteproposal_action = eosio::action_wrapper<"voteproposal"_n, &system_contract::voteproposal>;
          using voteproducer_action = eosio::action_wrapper<"voteproducer"_n, &system_contract::voteproducer>;
          using regproxy_action = eosio::action_wrapper<"regproxy"_n, &system_contract::regproxy>;
+         using execproposal_action = eosio::action_wrapper<"execproposal"_n, &system_contract::execproposal>;
          using newproposal_action = eosio::action_wrapper<"newproposal"_n, &system_contract::newproposal>;
          using staketognode_action = eosio::action_wrapper<"staketognode"_n, &system_contract::staketognode>;
          using claimrewards_action = eosio::action_wrapper<"claimrewards"_n, &system_contract::claimrewards>;
@@ -765,7 +771,7 @@ namespace eosiosystem {
 
          // defined in voting.hpp
          void update_elected_producers( block_timestamp timestamp );
-         void add_elected_producers( block_timestamp block_time, name new_producer, public_key key, uint16_t loc, uint64_t proposal_id );
+         void add_elected_producers( name new_producer, public_key key, uint16_t loc, uint64_t proposal_id );
          double stake_to_proposal_votes( int64_t staked );
          void update_votes( const name voter, const name proxy, const std::vector<name>& producers, bool voting );
          void propagate_weight_change( const voter_info& voter );

@@ -31,33 +31,6 @@ namespace eosiosystem {
       _gstate2.last_block_num = timestamp;
 
 
-
-      // 检查proposal是否满足条件，是这执行
-      if( timestamp.slot - _gstate.last_producer_schedule_update.slot > 120 ) {
-        const auto ct = current_time_point();
-        if ( _proposals.begin() != _proposals.end() ) {
-                auto idx = _proposals.get_index<"byendtime"_n>();
-                for(auto it = idx.begin(); it != idx.end(); ++it) {
-                    if( it->end_time  > ct ) continue;
-
-                    if ( (!it->is_exec) ) {
-                        if( it->total_yeas - it->total_nays > 0 ) {
-                            // idx.modify(it, _self, [&](auto& info){
-                            //     info.is_exec = true;
-                            // });
-                            if( it->type == 1 ) {
-                                auto prod3 = _producers3.find( it->account.value );
-                                check(prod3 != _producers3.end(), "account not in _producers3");
-                                add_elected_producers( timestamp, it->account, prod3->producer_key, prod3->location, it->id);
-                            }
-                        }
-                    }
-                }
-        }
-      }
-
-
-
       /** until activated stake crosses this threshold no new rewards are paid */
       if( _gstate.total_activated_stake < min_activated_stake || get_producers_size() < 4 )
          return;
@@ -114,6 +87,35 @@ namespace eosiosystem {
        return count;
    }
 
+   void system_contract::execproposal( const name owner, uint64_t proposal_id ) {
+       require_auth( owner );
+       const auto ct = current_time_point();
+
+       auto prod3 = _producers3.find( owner.value );
+       check(prod3 != _producers3.end(), "only governance node can exec proposal");
+
+
+       auto prop = _proposals.find( proposal_id );
+       check(prop != _proposals.end(), "proposal_id not in _proposals");
+       check(ct > prop->end_time, "proposal not end");
+       
+
+      // 检查proposal是否满足条件，是这执行
+        if( prop->type == 1 ) {
+            // idx.modify(it, _self, [&](auto &info) {
+            //     info.is_exec = true;
+            // });
+
+            _gstate.test = 12;
+            auto prod3 = _producers3.find( prop->account.value );
+            check(prod3 != _producers3.end(), "account not in _producers3");
+            _gstate.test = 13;
+            add_elected_producers( prop->account, prod3->producer_key, prod3->location, prop->id);
+            _gstate.test = 14;
+        }
+
+   }
+
    //发起提案，只有gnode才可以发起提案。
    // type 1: add bp 2: remove bp 3: switch consensus
    void system_contract::newproposal( const name owner, const name account, uint32_t block_height, int16_t type, int16_t status) {
@@ -159,6 +161,7 @@ namespace eosiosystem {
            check(prod3 != _producers3.end(), "account not in _producers3");
            regproducer(account, prod3->producer_key, "google.com", prod3->location);
        }
+       _gstate.proposal_num += 1;
 
    }
 
