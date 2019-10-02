@@ -159,7 +159,6 @@ namespace eosiosystem {
       });
    }
 
-
    // 提案type==2，将account 从producer移除
    void system_contract::remove_elected_producers( name remove_producer, uint64_t proposal_id ) {
 
