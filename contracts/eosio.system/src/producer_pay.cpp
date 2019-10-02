@@ -98,12 +98,10 @@ namespace eosiosystem {
        auto prod3 = _producers3.find( owner.value );
        check(prod3 != _producers3.end(), "only governance node can exec proposal");
 
-
        auto prop = _proposals.find( proposal_id );
        check(prop != _proposals.end(), "proposal_id not in _proposals");
        check(ct > prop->end_time, "proposal not end");
        
-
       // 检查proposal == 1是否满足条件，是这执行
         if( prop->type == 1 ) {
             if(true) {  // 提案是否满足条件
@@ -113,6 +111,17 @@ namespace eosiosystem {
             auto prod3 = _producers3.find( prop->account.value );
             check(prod3 != _producers3.end(), "account not in _producers3");
             add_elected_producers( prop->account, prod3->producer_key, prod3->location, prop->id);
+            }
+        }
+      // 检查proposal == 2是否满足条件，是这执行
+        if( prop->type == 2 ) {
+            if(true) {  // 提案是否满足条件
+                _proposals.modify(prop, owner, [&](auto &info) {
+                    info.is_satisfy = true;
+                });
+            auto prod3 = _producers3.find( prop->account.value );
+            check(prod3 != _producers3.end(), "account not in _producers3");
+            remove_elected_producers( prop->account, prop->id);
             }
         }
    }
@@ -142,11 +151,11 @@ namespace eosiosystem {
            info.account = account;
            info.start_time = ct;
            if(type == 1 || type == 2) {
-            //    info.end_time = ct + microseconds(useconds_per_day * 15);
-               info.end_time = ct; //测试
+               info.end_time = ct + microseconds(useconds_per_day * 15);
            } else {
                info.end_time = ct + microseconds(useconds_per_day * 30);
            }
+           info.end_time = ct; //测试
            info.block_height = block_height;
            info.type = type;
            info.is_satisfy = false;
