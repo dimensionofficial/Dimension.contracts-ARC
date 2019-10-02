@@ -163,6 +163,15 @@ namespace eosiosystem {
    void system_contract::remove_elected_producers( name remove_producer, uint64_t proposal_id ) {
 
       auto idx = _producers.get_index<"prototalvote"_n>();
+      // remove_producer是否在bp中
+      bool isExist = false;
+      for ( auto it = idx.cbegin(); it != idx.cend(); ++it ) {
+         if(remove_producer.value == it->owner.value) {
+            isExist = true;
+            break;
+         }
+      }
+      if( !isExist ) return;
 
       std::vector< std::pair<eosio::producer_key,uint16_t> > top_producers;
       uint16_t new_size = get_producers_size() - 1; //原有数量加一
