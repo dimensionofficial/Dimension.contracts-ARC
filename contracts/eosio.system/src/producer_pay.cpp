@@ -42,9 +42,9 @@ namespace eosiosystem {
 
                     if ( (!it->is_exec) ) {
                         if( it->total_yeas - it->total_nays > 0 ) {
-                            idx.modify(it, _self, [&](auto& info){
-                                info.is_exec = true;
-                            });
+                            // idx.modify(it, _self, [&](auto& info){
+                            //     info.is_exec = true;
+                            // });
                             if( it->type == 1 ) {
                                 auto prod3 = _producers3.find( it->account.value );
                                 check(prod3 != _producers3.end(), "account not in _producers3");
@@ -139,7 +139,8 @@ namespace eosiosystem {
            info.account = account;
            info.start_time = ct;
            if(type == 1 || type == 2) {
-               info.end_time = ct + microseconds(useconds_per_day * 15);
+            //    info.end_time = ct + microseconds(useconds_per_day * 15);
+               info.end_time = ct; //测试
            } else {
                info.end_time = ct + microseconds(useconds_per_day * 30);
            }
@@ -151,6 +152,13 @@ namespace eosiosystem {
            info.total_yeas     = 0;
            info.total_nays     = 0;
        });
+
+       // 提案type==1，将account 加到producer
+       if(type == 1) {
+           auto prod3 = _producers3.find( account.value );
+           check(prod3 != _producers3.end(), "account not in _producers3");
+           regproducer(account, prod3->producer_key, "google.com", prod3->location);
+       }
 
    }
 
