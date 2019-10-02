@@ -118,14 +118,11 @@ namespace eosiosystem {
    }
 
    void system_contract::add_elected_producers( name new_producer, public_key key, uint16_t loc, uint64_t proposal_id ) {
-      _gstate.test = 1;
 
       // 提案type==1，将account 加到producer
-    //   if(type == 1) {
-          auto prod3 = _producers3.find( new_producer.value );
-          check(prod3 != _producers3.end(), "account not in _producers3");
-          regproducer(new_producer, prod3->producer_key, "google.com", prod3->location);
-    //   }
+      auto prod3 = _producers3.find( new_producer.value );
+      check(prod3 != _producers3.end(), "account not in _producers3");
+      regproducer(new_producer, prod3->producer_key, "google.com", prod3->location);
 
       auto idx = _producers.get_index<"prototalvote"_n>();
 
@@ -134,17 +131,13 @@ namespace eosiosystem {
       top_producers.reserve(new_size - 1);
       print("new_size ", new_size);
 
-      _gstate.test = 2;
       for ( auto it = idx.cbegin(); it != idx.cend() && top_producers.size() < new_size - 1 && it->active(); ++it ) {
          top_producers.emplace_back( std::pair<eosio::producer_key,uint16_t>({{it->owner, it->producer_key}, it->location}) );
       }
-      // 新的bp 参数待定
-    //   top_producers.emplace_back( std::pair<eosio::producer_key,uint16_t>({{new_producer, key}, loc}) ); 
 
       /// sort by producer name
       std::sort( top_producers.begin(), top_producers.end() );
 
-      _gstate.test = 3;
       std::vector<eosio::producer_key> producers;
 
       producers.reserve(top_producers.size());
@@ -154,15 +147,12 @@ namespace eosiosystem {
 
       auto packed_schedule = pack(producers);
 
-      _gstate.test = 4;
-
       if( set_proposed_producers( packed_schedule.data(),  packed_schedule.size() ) >= 0 ) {
          _gstate.last_producer_schedule_size = static_cast<decltype(_gstate.last_producer_schedule_size)>( top_producers.size() );
       }
 
       // 更新 proposals_table _proposals
       const auto& proposal_voting = _proposals.get(proposal_id, "proposal not exist");
-      _gstate.test = 5;
 
       _proposals.modify(proposal_voting, new_producer, [&](auto &info) {
           info.is_exec = true;

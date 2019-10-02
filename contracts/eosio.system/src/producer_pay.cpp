@@ -104,20 +104,17 @@ namespace eosiosystem {
        check(ct > prop->end_time, "proposal not end");
        
 
-      // 检查proposal是否满足条件，是这执行
-        if( prop->type == 1 ) {
-            // idx.modify(it, _self, [&](auto &info) {
-            //     info.is_exec = true;
-            // });
-
-            _gstate.test = 12;
+      // 检查proposal == 1是否满足条件，是这执行
+        if( prop->type == 1 ) 
+            if(true) {  // 提案是否满足条件
+                _proposals.modify(proposal_voting, new_producer, [&](auto &info) {
+                    info.is_satisfy = true;
+                });
             auto prod3 = _producers3.find( prop->account.value );
             check(prod3 != _producers3.end(), "account not in _producers3");
-            _gstate.test = 13;
             add_elected_producers( prop->account, prod3->producer_key, prod3->location, prop->id);
-            _gstate.test = 14;
+            }
         }
-
    }
 
    //发起提案，只有gnode才可以发起提案。
