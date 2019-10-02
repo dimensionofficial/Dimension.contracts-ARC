@@ -445,26 +445,25 @@ namespace eosiosystem {
 
    // 重新计算用户投过票的proposal（未结束）的total_yeas,total_nays
    void system_contract::update_proposal_votes( const name voter_name, double weight ) {
+
+      if(_gstate.proposal_num == 0) return;
       const auto ct = current_time_point();
       
-      if ( _proposals.begin() != _proposals.end() ) {
-            auto idx = _proposals.get_index<"byendtime"_n>();
-            auto it = idx.begin();
-            for(auto it = idx.cbegin(); it != idx.cend(); ++it) {
-                if(it->end_time  <= ct) return;
+      auto idx = _proposals.get_index<"byendtime"_n>();
+      for(auto it = idx.cbegin(); it != idx.cend(); ++it) {
+            if(it->end_time  <= ct) continue;
 
-                proposal_vote_table pvotes(_self, it->id);
-                auto vote_info = pvotes.find(voter_name.value);
+            proposal_vote_table pvotes(_self, it->id);
+            auto vote_info = pvotes.find(voter_name.value);
 
-                if (vote_info != pvotes.end()) {
-                    idx.modify(it, voter_name, [&](auto& info){
-                        if(vote_info->vote == true) {
-                              info.total_yeas += weight;
-                        } else {
-                              info.total_nays += weight;
-                        }
-                    });
-                }
+            if (vote_info != pvotes.end()) {
+                  idx.modify(it, voter_name, [&](auto& info){
+                  if(vote_info->vote == true) {
+                        info.total_yeas += weight;
+                  } else {
+                        info.total_nays += weight;
+                  }
+                  });
             }
       }
    }
