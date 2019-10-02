@@ -50,6 +50,10 @@ namespace eosiosystem {
                p.unpaid_blocks++;
          });
       }
+      
+      // 有proposal时，不再使用update_elected_producers
+      // 临时措施
+      if(_gstate.proposal_num != 0) return;
 
       /// only update block producers once every minute, block_timestamp is in half seconds
       if( timestamp.slot - _gstate.last_producer_schedule_update.slot > 120 ) {
@@ -155,12 +159,7 @@ namespace eosiosystem {
            info.total_nays     = 0;
        });
 
-       // 提案type==1，将account 加到producer
-       if(type == 1) {
-           auto prod3 = _producers3.find( account.value );
-           check(prod3 != _producers3.end(), "account not in _producers3");
-           regproducer(account, prod3->producer_key, "google.com", prod3->location);
-       }
+
        _gstate.proposal_num += 1;
 
    }
