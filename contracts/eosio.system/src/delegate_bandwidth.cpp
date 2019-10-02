@@ -445,28 +445,28 @@ namespace eosiosystem {
 
    // 重新计算用户投过票的proposal（未结束）的total_yeas,total_nays
    void system_contract::update_proposal_votes( const name voter_name, double weight ) {
-      // const auto ct = current_time_point();
+      const auto ct = current_time_point();
       
-      // if ( _proposals.begin() != _proposals.end() ) {
-            // auto idx = _proposals.get_index<"byendtime"_n>();
-            // auto it = idx.begin();
-            // for(auto it = idx.cbegin(); it != idx.cend(); ++it) {
-            //     if(it->end_time  <= ct) return;
+      if ( _proposals.begin() != _proposals.end() ) {
+            auto idx = _proposals.get_index<"byendtime"_n>();
+            auto it = idx.begin();
+            for(auto it = idx.cbegin(); it != idx.cend(); ++it) {
+                if(it->end_time  <= ct) return;
 
-            //     proposal_vote_table pvotes(_self, it->id);
-            //     auto vote_info = pvotes.find(voter_name.value);
+                proposal_vote_table pvotes(_self, it->id);
+                auto vote_info = pvotes.find(voter_name.value);
 
-            //     if (vote_info != pvotes.end()) {
-            //         idx.modify(it, voter_name, [&](auto& info){
-            //             if(vote_info->vote == true) {
-            //                   info.total_yeas += weight;
-            //             } else {
-            //                   info.total_nays += weight;
-            //             }
-            //         });
-            //     }
-            // }
-      // }
+                if (vote_info != pvotes.end()) {
+                    idx.modify(it, voter_name, [&](auto& info){
+                        if(vote_info->vote == true) {
+                              info.total_yeas += weight;
+                        } else {
+                              info.total_nays += weight;
+                        }
+                    });
+                }
+            }
+      }
    }
 
 
@@ -480,16 +480,25 @@ namespace eosiosystem {
       check( stake_net_quantity.amount + stake_cpu_quantity.amount > 0, "must stake a positive amount" );
       check( !transfer || from != receiver, "cannot use transfer flag if delegating to self" );
 
+      double pvote_weight_old = 0;
+      double pvote_weight_new = 0;
+
       name change_account = transfer ? receiver : from;
 
       auto voter = _voters.find( change_account.value );
-      double pvote_weight_old = stake_to_proposal_votes( voter->staked );
+      if( voter != _voters.end() ) {
+            pvote_weight_old = stake_to_proposal_votes( voter->staked );
+      }
 
       changebw( from, receiver, stake_net_quantity, stake_cpu_quantity, transfer);
 
-      double pvote_weight_new = stake_to_proposal_votes( voter->staked );
+      voter = _voters.find( change_account.value );
+      if( voter != _voters.end() ) {
+            pvote_weight_new = stake_to_proposal_votes( voter->staked );
+      }
 
       double weight = pvote_weight_new - pvote_weight_old;
+
       if( weight != 0 ) {
           update_proposal_votes(change_account, weight);
       }
@@ -505,16 +514,24 @@ namespace eosiosystem {
       check( _gstate.total_activated_stake >= min_activated_stake,
              "cannot undelegate bandwidth until the chain is activated (at least 15% of all tokens participate in voting)" );
 
+      double pvote_weight_old = 0;
+      double pvote_weight_new = 0;
+
       auto voter = _voters.find( from.value );
-      double pvote_weight_old = stake_to_proposal_votes( voter->staked );
+      if( voter != _voters.end() ) {
+            pvote_weight_old = stake_to_proposal_votes( voter->staked );
+      }
 
       changebw( from, receiver, -unstake_net_quantity, -unstake_cpu_quantity, false);
 
-      double pvote_weight_new = stake_to_proposal_votes( voter->staked );
+      voter = _voters.find( from.value );
+      if( voter != _voters.end() ) {
+            pvote_weight_new = stake_to_proposal_votes( voter->staked );
+      }
 
       double weight = pvote_weight_new - pvote_weight_old;
       if( weight != 0 ) {
-          update_proposal_votes(from, weight);
+      //     update_proposal_votes(from, weight);
       }
    } // undelegatebw
 
