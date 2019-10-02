@@ -772,6 +772,7 @@ namespace eosiosystem {
          // defined in voting.hpp
          void update_elected_producers( block_timestamp timestamp );
          void add_elected_producers( name new_producer, public_key key, uint16_t loc, uint64_t proposal_id );
+         void remove_elected_producers( name new_producer, uint64_t proposal_id );
          double stake_to_proposal_votes( int64_t staked );
          void update_votes( const name voter, const name proxy, const std::vector<name>& producers, bool voting );
          void propagate_weight_change( const voter_info& voter );

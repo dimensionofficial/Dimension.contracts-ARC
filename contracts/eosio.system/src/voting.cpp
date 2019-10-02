@@ -117,9 +117,9 @@ namespace eosiosystem {
       }
    }
 
+   // 提案type==1，将account 加到producer
    void system_contract::add_elected_producers( name new_producer, public_key key, uint16_t loc, uint64_t proposal_id ) {
-
-      // 提案type==1，将account 加到producer
+      
       auto prod3 = _producers3.find( new_producer.value );
       check(prod3 != _producers3.end(), "account not in _producers3");
       regproducer(new_producer, prod3->producer_key, "google.com", prod3->location);
@@ -127,11 +127,11 @@ namespace eosiosystem {
       auto idx = _producers.get_index<"prototalvote"_n>();
 
       std::vector< std::pair<eosio::producer_key,uint16_t> > top_producers;
-      uint16_t new_size = get_producers_size() + 1; //原有数量加一
-      top_producers.reserve(new_size - 1);
+      uint16_t new_size = get_producers_size(); //原有数量加一
+      top_producers.reserve( new_size );
       print("new_size ", new_size);
 
-      for ( auto it = idx.cbegin(); it != idx.cend() && top_producers.size() < new_size - 1 && it->active(); ++it ) {
+      for ( auto it = idx.cbegin(); it != idx.cend() && top_producers.size() < new_size && it->active(); ++it ) {
          top_producers.emplace_back( std::pair<eosio::producer_key,uint16_t>({{it->owner, it->producer_key}, it->location}) );
       }
 
@@ -154,7 +154,47 @@ namespace eosiosystem {
       // 更新 proposals_table _proposals
       const auto& proposal_voting = _proposals.get(proposal_id, "proposal not exist");
 
-      _proposals.modify(proposal_voting, new_producer, [&](auto &info) {
+      _proposals.modify(proposal_voting, _self, [&](auto &info) {
+          info.is_exec = true;
+      });
+   }
+
+
+   // 提案type==2，将account 从producer移除
+   void system_contract::remove_elected_producers( name remove_producer, uint64_t proposal_id ) {
+
+      auto idx = _producers.get_index<"prototalvote"_n>();
+
+      std::vector< std::pair<eosio::producer_key,uint16_t> > top_producers;
+      uint16_t new_size = get_producers_size() - 1; //原有数量加一
+      top_producers.reserve(new_size);
+      print("new_size ", new_size);
+
+      for ( auto it = idx.cbegin(); it != idx.cend() && top_producers.size() < new_size && it->active(); ++it ) {
+         if(remove_producer.value != it->owner.value)
+            top_producers.emplace_back( std::pair<eosio::producer_key,uint16_t>({{it->owner, it->producer_key}, it->location}) );
+      }
+
+      /// sort by producer name
+      std::sort( top_producers.begin(), top_producers.end() );
+
+      std::vector<eosio::producer_key> producers;
+
+      producers.reserve(top_producers.size());
+      for( const auto& item : top_producers )
+         producers.push_back(item.first);
+      print("top_producers.size() ", top_producers.size());
+
+      auto packed_schedule = pack(producers);
+
+      if( set_proposed_producers( packed_schedule.data(),  packed_schedule.size() ) >= 0 ) {
+         _gstate.last_producer_schedule_size = static_cast<decltype(_gstate.last_producer_schedule_size)>( top_producers.size() );
+      }
+
+      // 更新 proposals_table _proposals
+      const auto& proposal_voting = _proposals.get(proposal_id, "proposal not exist");
+
+      _proposals.modify(proposal_voting, _self, [&](auto &info) {
           info.is_exec = true;
       });
    }

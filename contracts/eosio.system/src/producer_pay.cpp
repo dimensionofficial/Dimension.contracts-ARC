@@ -105,9 +105,9 @@ namespace eosiosystem {
        
 
       // 检查proposal == 1是否满足条件，是这执行
-        if( prop->type == 1 ) 
+        if( prop->type == 1 ) {
             if(true) {  // 提案是否满足条件
-                _proposals.modify(proposal_voting, new_producer, [&](auto &info) {
+                _proposals.modify(prop, owner, [&](auto &info) {
                     info.is_satisfy = true;
                 });
             auto prod3 = _producers3.find( prop->account.value );
