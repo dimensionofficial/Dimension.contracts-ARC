@@ -129,7 +129,6 @@ namespace eosiosystem {
       std::vector< std::pair<eosio::producer_key,uint16_t> > top_producers;
       uint16_t new_size = get_producers_size(); //原有数量加一
       top_producers.reserve( new_size );
-      print("new_size ", new_size);
 
       for ( auto it = idx.cbegin(); it != idx.cend() && top_producers.size() < new_size && it->active(); ++it ) {
          top_producers.emplace_back( std::pair<eosio::producer_key,uint16_t>({{it->owner, it->producer_key}, it->location}) );
@@ -143,7 +142,6 @@ namespace eosiosystem {
       producers.reserve(top_producers.size());
       for( const auto& item : top_producers )
          producers.push_back(item.first);
-      print("top_producers.size() ", top_producers.size());
 
       auto packed_schedule = pack(producers);
 
@@ -176,7 +174,6 @@ namespace eosiosystem {
       std::vector< std::pair<eosio::producer_key,uint16_t> > top_producers;
       uint16_t new_size = get_producers_size() - 1; //原有数量加一
       top_producers.reserve(new_size);
-      print("new_size ", new_size);
 
       for ( auto it = idx.cbegin(); it != idx.cend() && top_producers.size() < new_size && it->active(); ++it ) {
          if(remove_producer.value != it->owner.value)
@@ -191,7 +188,6 @@ namespace eosiosystem {
       producers.reserve(top_producers.size());
       for( const auto& item : top_producers )
          producers.push_back(item.first);
-      print("top_producers.size() ", top_producers.size());
 
       auto packed_schedule = pack(producers);
 
@@ -298,7 +294,7 @@ namespace eosiosystem {
                   }
               });
           } else {
-              // eosio::print("skip same vote of ", name{voter}, "\n");
+              // print("skip same vote of ", name{voter}, "\n");
           }
       } else {
           // RAM is from voter, so they need have some to vote
