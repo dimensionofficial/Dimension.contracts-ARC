@@ -641,6 +641,9 @@ namespace eosiosystem {
          void staketognode( const name owner, const public_key& producer_key, const std::string& url, uint16_t location );
 
          [[eosio::action]]
+         void updategnode( const name owner, const public_key& producer_key, const std::string& url, uint16_t location );
+
+         [[eosio::action]]
          void claimrewards( const name owner );
 
          [[eosio::action]]
@@ -697,6 +700,7 @@ namespace eosiosystem {
          using execproposal_action = eosio::action_wrapper<"execproposal"_n, &system_contract::execproposal>;
          using newproposal_action = eosio::action_wrapper<"newproposal"_n, &system_contract::newproposal>;
          using staketognode_action = eosio::action_wrapper<"staketognode"_n, &system_contract::staketognode>;
+         using updategnode_action = eosio::action_wrapper<"updategnode"_n, &system_contract::updategnode>;
          using claimrewards_action = eosio::action_wrapper<"claimrewards"_n, &system_contract::claimrewards>;
          using rmvproducer_action = eosio::action_wrapper<"rmvproducer"_n, &system_contract::rmvproducer>;
          using updtrevision_action = eosio::action_wrapper<"updtrevision"_n, &system_contract::updtrevision>;

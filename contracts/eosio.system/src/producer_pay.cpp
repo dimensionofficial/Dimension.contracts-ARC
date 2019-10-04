@@ -183,8 +183,6 @@ namespace eosiosystem {
           { owner, bpstk_account, asset(10000, core_symbol()), "stake 1.0000 EON to governance node" }
        );
 
-
-
        prod3 = _producers3.emplace( owner, [&]( producer_info3& info  ) {
             info.owner          = owner;
             info.bp_staked      = 10000;
@@ -196,6 +194,25 @@ namespace eosiosystem {
             info.location       = location;
        });
    }
+
+   // 更新governance node信息
+   void system_contract::updategnode( const name owner, const public_key& producer_key, const std::string& url, uint16_t location ) {
+       require_auth( owner );
+       const auto ct = current_time_point();
+
+       auto prod3 = _producers3.find( owner.value );
+       check(prod3 != _producers3.end(), "account not in _producers3");
+
+      _producers3.modify( prod3, owner, [&](auto& info) {
+         info.producer_key   = producer_key;
+         info.url            = url;
+         info.location       = location;
+      });
+
+   }
+
+
+
    // 不增发
    void system_contract::claimrewards( const name owner ) {
       require_auth( owner );
