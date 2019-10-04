@@ -108,9 +108,14 @@ namespace eosiosystem {
                 _proposals.modify(prop, owner, [&](auto &info) {
                     info.is_satisfy = true;
                 });
-            auto prod3 = _producers3.find( prop->account.value );
-            check(prod3 != _producers3.end(), "account not in _producers3");
-            add_elected_producers( prop->account, prod3->producer_key, prod3->location, prop->id);
+                auto prod3 = _producers3.find( prop->account.value );
+                check(prod3 != _producers3.end(), "account not in _producers3");
+
+                add_elected_producers( prop->account, prod3->producer_key, prod3->location, prop->id);
+                _producers3.modify( prod3, owner, [&](auto& info) {
+                    info.is_bp   = true;
+                });
+
             }
         }
       // 检查proposal == 2是否满足条件，是这执行
@@ -119,9 +124,12 @@ namespace eosiosystem {
                 _proposals.modify(prop, owner, [&](auto &info) {
                     info.is_satisfy = true;
                 });
-            auto prod3 = _producers3.find( prop->account.value );
-            check(prod3 != _producers3.end(), "account not in _producers3");
-            remove_elected_producers( prop->account, prop->id);
+                auto prod3 = _producers3.find( prop->account.value );
+                check(prod3 != _producers3.end(), "account not in _producers3");
+                remove_elected_producers( prop->account, prop->id);
+                _producers3.modify( prod3, owner, [&](auto& info) {
+                    info.is_bp   = false;
+                });
             }
         }
    }
