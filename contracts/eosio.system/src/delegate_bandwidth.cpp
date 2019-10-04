@@ -530,7 +530,7 @@ namespace eosiosystem {
 
       double weight = pvote_weight_new - pvote_weight_old;
       if( weight != 0 ) {
-      //     update_proposal_votes(from, weight);
+          update_proposal_votes(from, weight);
       }
    } // undelegatebw
 
