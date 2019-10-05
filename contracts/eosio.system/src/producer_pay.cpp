@@ -104,7 +104,7 @@ namespace eosiosystem {
        
       // 检查proposal == 1是否满足条件，是这执行
         if( prop->type == 1 ) {
-            if(true) {  // 提案是否满足条件
+            if(true) {  // 提案是否满足条件 yeas-nays > staked/10 ?
                 _proposals.modify(prop, owner, [&](auto &info) {
                     info.is_satisfy = true;
                 });
@@ -115,12 +115,11 @@ namespace eosiosystem {
                 _producers3.modify( prod3, owner, [&](auto& info) {
                     info.is_bp   = true;
                 });
-
             }
         }
       // 检查proposal == 2是否满足条件，是这执行
         if( prop->type == 2 ) {
-            if(true) {  // 提案是否满足条件
+            if(true) {  // 提案是否满足条件 yeas-nays > staked/10 ?
                 _proposals.modify(prop, owner, [&](auto &info) {
                     info.is_satisfy = true;
                 });
