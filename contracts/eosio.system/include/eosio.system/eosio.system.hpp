@@ -131,8 +131,9 @@ namespace eosiosystem {
       eosio_global_state3() { }
       time_point        last_vpay_state_update;
       double            total_vpay_share_change_rate = 0;
+      uint64_t          stake_to_gnode_fee = 10000;   // 1.0000 EON
 
-      EOSLIB_SERIALIZE( eosio_global_state3, (last_vpay_state_update)(total_vpay_share_change_rate) )
+      EOSLIB_SERIALIZE( eosio_global_state3, (last_vpay_state_update)(total_vpay_share_change_rate)(stake_to_gnode_fee) )
    };
 
    struct [[eosio::table, eosio::contract("eosio.system")]] producer_info {

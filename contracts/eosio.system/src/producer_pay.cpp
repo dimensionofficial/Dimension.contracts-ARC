@@ -185,14 +185,15 @@ namespace eosiosystem {
        auto prod3 = _producers3.find( owner.value );
        check(prod3 == _producers3.end(), "account already in _producers3");
 
+       uint64_t fee = _gstate3.stake_to_gnode_fee;
        INLINE_ACTION_SENDER(eosio::token, transfer)(
           token_account, { {owner, active_permission} },
-          { owner, bpstk_account, asset(10000, core_symbol()), "stake 1.0000 EON to governance node" }
+          { owner, bpstk_account, asset(fee, core_symbol()), "stake 1.0000 EON to governance node" }
        );
 
        prod3 = _producers3.emplace( owner, [&]( producer_info3& info  ) {
             info.owner          = owner;
-            info.bp_staked      = 10000;
+            info.bp_staked      = fee;
             info.stake_time     = ct;
             info.is_bp          = false;
             info.status         = 0;
