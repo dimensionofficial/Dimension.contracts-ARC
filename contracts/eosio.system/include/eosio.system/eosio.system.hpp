@@ -133,9 +133,10 @@ namespace eosiosystem {
       double            total_vpay_share_change_rate = 0;
       uint64_t          stake_to_gnode_fee = 10000;   // 1.0000 EON
       uint64_t          new_proposal_fee = 15000;     // 1.5000 EON
+      uint16_t          min_producer_size = 4;
 
       EOSLIB_SERIALIZE( eosio_global_state3, (last_vpay_state_update)(total_vpay_share_change_rate)
-                                             (stake_to_gnode_fee)(new_proposal_fee) )
+                                             (stake_to_gnode_fee)(new_proposal_fee)(min_producer_size) )
    };
 
    struct [[eosio::table, eosio::contract("eosio.system")]] producer_info {
@@ -774,7 +775,7 @@ namespace eosiosystem {
 
 
          // defined in prooducer_pay.cpp
-         int16_t get_producers_size();
+         uint16_t get_producers_size();
 
          // defined in voting.hpp
          void update_elected_producers( block_timestamp timestamp );

@@ -32,7 +32,7 @@ namespace eosiosystem {
 
 
       /** until activated stake crosses this threshold no new rewards are paid */
-      if( _gstate.total_activated_stake < min_activated_stake || get_producers_size() < 4 )
+      if( _gstate.total_activated_stake < min_activated_stake || get_producers_size() < _gstate3.min_producer_size )
          return;
 
       if( _gstate.last_pervote_bucket_fill == time_point() )  /// start the presses
@@ -81,8 +81,8 @@ namespace eosiosystem {
 
    using namespace eosio;
 
-   int16_t system_contract::get_producers_size() {
-       int16_t count = 0;
+   uint16_t system_contract::get_producers_size() {
+       uint16_t count = 0;
        auto idx = _producers.get_index<"prototalvote"_n>();
 
        for ( auto it = idx.cbegin(); it != idx.cend(); ++it ) {
