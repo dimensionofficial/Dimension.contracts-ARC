@@ -111,7 +111,7 @@ namespace eosiosystem {
                 auto prod3 = _producers3.find( prop->account.value );
                 check(prod3 != _producers3.end(), "account not in _producers3");
 
-                add_elected_producers( prop->account, prod3->producer_key, prod3->location, prop->id);
+                add_elected_producers( prop->account, prod3->producer_key, prod3->url, prod3->location, prop->id);
                 _producers3.modify( prod3, owner, [&](auto& info) {
                     info.is_bp   = true;
                 });
