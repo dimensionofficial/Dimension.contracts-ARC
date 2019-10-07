@@ -145,9 +145,10 @@ namespace eosiosystem {
            check(owner == account, "can not add other account to bp");
        }
 
+       uint64_t fee = _gstate3.new_proposal_fee;
        INLINE_ACTION_SENDER(eosio::token, transfer)(
           token_account, { {owner, active_permission} },
-          { owner, prop_account, asset(15000, core_symbol()), "transfer 1.5000 EON to new proposal" }
+          { owner, prop_account, asset(fee, core_symbol()), "transfer 1.5000 EON to new proposal" }
        );
 
        uint64_t id = _proposals.available_primary_key();
