@@ -212,6 +212,14 @@ namespace eosiosystem {
        auto prod3 = _producers3.find( owner.value );
        check(prod3 != _producers3.end(), "account not in _producers3");
 
+       auto idx = _proposals.get_index<"byendtime"_n>();
+       for(auto it = idx.cbegin(); it != idx.cend(); ++it) {
+             if(it->end_time  <= ct) continue;
+ 
+             check(it->owner != owner, "proposal owner is equal owner");
+             check(it->account != owner, "proposal account is equal owner");
+       }
+
        uint64_t fee = prod3->bp_staked;
        
        _producers3.erase( prod3 );
