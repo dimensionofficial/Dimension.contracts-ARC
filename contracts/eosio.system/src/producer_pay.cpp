@@ -204,6 +204,24 @@ namespace eosiosystem {
        });
    }
 
+   // unstakegnode
+   void system_contract::unstakegnode( const name owner ) {
+       require_auth( owner );
+       const auto ct = current_time_point();
+
+       auto prod3 = _producers3.find( owner.value );
+       check(prod3 != _producers3.end(), "account not in _producers3");
+
+       uint64_t fee = prod3->bp_staked;
+       
+       _producers3.erase( prod3 );
+
+       INLINE_ACTION_SENDER(eosio::token, transfer)(
+          token_account, { {bpstk_account, active_permission} },
+          { bpstk_account, owner, asset(fee, core_symbol()), "unstake goverance node refund" }
+       );
+   }
+
    // 更新governance node信息
    void system_contract::updategnode( const name owner, const public_key& producer_key, const std::string& url, uint16_t location ) {
        require_auth( owner );
