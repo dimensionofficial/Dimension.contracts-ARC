@@ -230,6 +230,10 @@ namespace eosiosystem {
        auto prod3 = _producers3.find( owner.value );
        check(prod3 != _producers3.end(), "account not in _producers3");
 
+       check(!prod3->is_bp, "can not unstake, this account is bp now");
+
+       // 检查是否有与该账号相关的提案
+
       _producers3.modify( prod3, owner, [&](auto& info) {
          info.producer_key   = producer_key;
          info.url            = url;
