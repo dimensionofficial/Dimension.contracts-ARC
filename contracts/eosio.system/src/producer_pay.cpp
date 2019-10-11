@@ -173,7 +173,6 @@ namespace eosiosystem {
            info.total_nays     = 0;
        });
 
-
        _gstate.proposal_num += 1;
 
    }
