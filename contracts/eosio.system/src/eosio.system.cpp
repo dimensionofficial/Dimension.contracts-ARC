@@ -15,7 +15,7 @@ namespace eosiosystem {
     _voters(_self, _self.value),
     _producers(_self, _self.value),
     _producers2(_self, _self.value),
-    _producers3(_self, _self.value),
+    _gnode(_self, _self.value),
     _proposals(_self, _self.value),
     _global(_self, _self.value),
     _global2(_self, _self.value),

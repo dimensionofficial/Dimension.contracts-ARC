@@ -95,8 +95,8 @@ namespace eosiosystem {
        require_auth( owner );
        const auto ct = current_time_point();
 
-       auto prod3 = _producers3.find( owner.value );
-       check(prod3 != _producers3.end(), "only governance node can exec proposal");
+       auto prod3 = _gnode.find( owner.value );
+       check(prod3 != _gnode.end(), "only governance node can exec proposal");
 
        auto prop = _proposals.find( proposal_id );
        check(prop != _proposals.end(), "proposal_id not in _proposals");
@@ -108,11 +108,11 @@ namespace eosiosystem {
                 _proposals.modify(prop, owner, [&](auto &info) {
                     info.is_satisfy = true;
                 });
-                auto prod3 = _producers3.find( prop->account.value );
-                check(prod3 != _producers3.end(), "account not in _producers3");
+                auto prod3 = _gnode.find( prop->account.value );
+                check(prod3 != _gnode.end(), "account not in _gnode");
 
                 add_elected_producers( prop->account, prod3->producer_key, prod3->url, prod3->location, prop->id);
-                _producers3.modify( prod3, owner, [&](auto& info) {
+                _gnode.modify( prod3, owner, [&](auto& info) {
                     info.is_bp   = true;
                 });
             }
@@ -123,10 +123,10 @@ namespace eosiosystem {
                 _proposals.modify(prop, owner, [&](auto &info) {
                     info.is_satisfy = true;
                 });
-                auto prod3 = _producers3.find( prop->account.value );
-                check(prod3 != _producers3.end(), "account not in _producers3");
+                auto prod3 = _gnode.find( prop->account.value );
+                check(prod3 != _gnode.end(), "account not in _gnode");
                 remove_elected_producers( prop->account, prop->id);
-                _producers3.modify( prod3, owner, [&](auto& info) {
+                _gnode.modify( prod3, owner, [&](auto& info) {
                     info.is_bp   = false;
                 });
             }
@@ -139,8 +139,8 @@ namespace eosiosystem {
        require_auth( owner );
        const auto ct = current_time_point();
 
-       auto prod3 = _producers3.find( owner.value );
-       check(prod3 != _producers3.end(), "only governance node can new proposal");
+       auto prod3 = _gnode.find( owner.value );
+       check(prod3 != _gnode.end(), "only governance node can new proposal");
        if(type == 1) {
            check(owner == account, "can not add other account to bp");
        }
@@ -182,8 +182,8 @@ namespace eosiosystem {
        require_auth( owner );
        const auto ct = current_time_point();
 
-       auto prod3 = _producers3.find( owner.value );
-       check(prod3 == _producers3.end(), "account already in _producers3");
+       auto prod3 = _gnode.find( owner.value );
+       check(prod3 == _gnode.end(), "account already in _gnode");
 
        uint64_t fee = _gstate3.stake_to_gnode_fee;
        INLINE_ACTION_SENDER(eosio::token, transfer)(
@@ -191,7 +191,7 @@ namespace eosiosystem {
           { owner, bpstk_account, asset(fee, core_symbol()), "stake 1.0000 EON to governance node" }
        );
 
-       prod3 = _producers3.emplace( owner, [&]( producer_info3& info  ) {
+       prod3 = _gnode.emplace( owner, [&]( goverance_node_info& info  ) {
             info.owner          = owner;
             info.bp_staked      = fee;
             info.stake_time     = ct;
@@ -208,8 +208,8 @@ namespace eosiosystem {
        require_auth( owner );
        const auto ct = current_time_point();
 
-       auto prod3 = _producers3.find( owner.value );
-       check(prod3 != _producers3.end(), "account not in _producers3");
+       auto prod3 = _gnode.find( owner.value );
+       check(prod3 != _gnode.end(), "account not in _gnode");
 
        auto idx = _proposals.get_index<"byendtime"_n>();
        for(auto it = idx.cbegin(); it != idx.cend(); ++it) {
@@ -221,7 +221,7 @@ namespace eosiosystem {
 
        uint64_t fee = prod3->bp_staked;
        
-       _producers3.erase( prod3 );
+       _gnode.erase( prod3 );
 
        INLINE_ACTION_SENDER(eosio::token, transfer)(
           token_account, { {bpstk_account, active_permission} },
@@ -234,14 +234,14 @@ namespace eosiosystem {
        require_auth( owner );
        const auto ct = current_time_point();
 
-       auto prod3 = _producers3.find( owner.value );
-       check(prod3 != _producers3.end(), "account not in _producers3");
+       auto prod3 = _gnode.find( owner.value );
+       check(prod3 != _gnode.end(), "account not in _gnode");
 
        check(!prod3->is_bp, "can not unstake, this account is bp now");
 
        // 检查是否有与该账号相关的提案
 
-      _producers3.modify( prod3, owner, [&](auto& info) {
+      _gnode.modify( prod3, owner, [&](auto& info) {
          info.producer_key   = producer_key;
          info.url            = url;
          info.location       = location;

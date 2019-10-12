@@ -120,8 +120,8 @@ namespace eosiosystem {
    // 提案type==1，将account 加到producer
    void system_contract::add_elected_producers( name new_producer, public_key key, std::string url, uint16_t loc, uint64_t proposal_id ) {
       
-      auto prod3 = _producers3.find( new_producer.value );
-      check(prod3 != _producers3.end(), "account not in _producers3");
+      auto prod3 = _gnode.find( new_producer.value );
+      check(prod3 != _gnode.end(), "account not in _gnode");
       regproducer(new_producer, prod3->producer_key, url, prod3->location);
 
       auto idx = _producers.get_index<"prototalvote"_n>();

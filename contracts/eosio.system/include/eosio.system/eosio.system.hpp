@@ -170,7 +170,7 @@ namespace eosiosystem {
       EOSLIB_SERIALIZE( producer_info2, (owner)(votepay_share)(last_votepay_share_update) )
    };
 
-   struct [[eosio::table, eosio::contract("eosio.system")]] producer_info3 {
+   struct [[eosio::table, eosio::contract("eosio.system")]] goverance_node_info {
       name                  owner;
             
       int64_t               bp_staked = 0;
@@ -183,7 +183,7 @@ namespace eosiosystem {
 
       uint64_t primary_key()const { return owner.value; }
 
-      EOSLIB_SERIALIZE( producer_info3, (owner)(bp_staked)(stake_time)(is_bp)(status)(producer_key)(url)(location) )
+      EOSLIB_SERIALIZE( goverance_node_info, (owner)(bp_staked)(stake_time)(is_bp)(status)(producer_key)(url)(location) )
    };
 
    struct [[eosio::table, eosio::contract("eosio.system")]] proposal_vote_info {
@@ -263,7 +263,7 @@ namespace eosiosystem {
                                indexed_by<"prototalvote"_n, const_mem_fun<producer_info, double, &producer_info::by_votes> > > producers_table;
    typedef eosio::multi_index< "producers2"_n, producer_info2 > producers_table2;
 
-   typedef eosio::multi_index< "producers3"_n, producer_info3 > producers_table3;
+   typedef eosio::multi_index< "producers3"_n, goverance_node_info > goverance_node_table;
 
    typedef eosio::multi_index< "propvote"_n, proposal_vote_info > proposal_vote_table;
 
@@ -368,7 +368,7 @@ namespace eosiosystem {
          voters_table            _voters;
          producers_table         _producers;
          producers_table2        _producers2;
-         producers_table3        _producers3;
+         goverance_node_table    _gnode;
          proposals_table         _proposals;
          global_state_singleton  _global;
          global_state2_singleton _global2;
