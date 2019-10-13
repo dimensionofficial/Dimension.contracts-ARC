@@ -444,7 +444,7 @@ namespace eosiosystem {
 
 
    // 重新计算用户投过票的proposal（未结束）的total_yeas,total_nays
-   void system_contract::update_proposal_votes( const name voter_name, double weight ) {
+   void system_contract::update_proposal_votes( const name voter_name, int64_t weight ) {
 
       if(_gstate.proposal_num == 0) return;
       const auto ct = current_time_point();
@@ -479,8 +479,8 @@ namespace eosiosystem {
       check( stake_net_quantity.amount + stake_cpu_quantity.amount > 0, "must stake a positive amount" );
       check( !transfer || from != receiver, "cannot use transfer flag if delegating to self" );
 
-      double pvote_weight_old = 0;
-      double pvote_weight_new = 0;
+      int64_t pvote_weight_old = 0;
+      int64_t pvote_weight_new = 0;
 
       name change_account = transfer ? receiver : from;
 
@@ -496,7 +496,7 @@ namespace eosiosystem {
             pvote_weight_new = stake_to_proposal_votes( voter->staked );
       }
 
-      double weight = pvote_weight_new - pvote_weight_old;
+      int64_t weight = pvote_weight_new - pvote_weight_old;
 
       if( weight != 0 ) {
           update_proposal_votes(change_account, weight);
@@ -514,8 +514,8 @@ namespace eosiosystem {
       check( _gstate.total_activated_stake >= min_activated_stake,
              "cannot undelegate bandwidth until the chain is activated (at least 15% of all tokens participate in voting)" );
 
-      double pvote_weight_old = 0;
-      double pvote_weight_new = 0;
+      int64_t pvote_weight_old = 0;
+      int64_t pvote_weight_new = 0;
 
       auto voter = _voters.find( from.value );
       if( voter != _voters.end() ) {
@@ -529,7 +529,7 @@ namespace eosiosystem {
             pvote_weight_new = stake_to_proposal_votes( voter->staked );
       }
 
-      double weight = pvote_weight_new - pvote_weight_old;
+      int64_t weight = pvote_weight_new - pvote_weight_old;
       if( weight != 0 ) {
           update_proposal_votes(from, weight);
           _gstate.total_proposal_stake += weight; //更新票总数

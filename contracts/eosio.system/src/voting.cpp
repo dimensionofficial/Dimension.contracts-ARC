@@ -275,7 +275,7 @@ namespace eosiosystem {
       auto vote_info = pvotes.find(voter_name.value);
 
       auto voter = _voters.find( voter_name.value );
-      double pvote_weight = stake_to_proposal_votes( voter->staked );
+      int64_t pvote_weight = stake_to_proposal_votes( voter->staked );
 
       if (vote_info != pvotes.end()) {
           bool old_vote = vote_info->vote;
@@ -315,8 +315,8 @@ namespace eosiosystem {
 
 
    // 账号抵押的cpu&net映射为票数
-   double system_contract::stake_to_proposal_votes( int64_t staked ) {
-      return double(staked);
+   int64_t system_contract::stake_to_proposal_votes( int64_t staked ) {
+      return staked;
    }
 
 

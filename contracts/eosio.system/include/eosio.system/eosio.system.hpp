@@ -95,7 +95,7 @@ namespace eosiosystem {
       int64_t              perblock_bucket = 10000000;
       uint32_t             total_unpaid_blocks = 0; /// all blocks which have been produced but not paid
       int64_t              total_activated_stake = 0;
-      double               total_proposal_stake = 0;
+      int64_t              total_proposal_stake = 0;
       time_point           thresh_activated_stake_time;
       uint16_t             last_producer_schedule_size = 0;
       double               total_producer_vote_weight = 0; /// the sum of all producer votes
@@ -211,8 +211,8 @@ namespace eosiosystem {
       bool            is_satisfy;
       bool            is_exec;
       int16_t         status;
-      double          total_yeas;
-      double          total_nays;
+      int64_t         total_yeas;
+      int64_t         total_nays;
 
       uint64_t primary_key()const { return id; }
       uint64_t by_end_time()const { return end_time.elapsed.count(); }
@@ -777,7 +777,7 @@ namespace eosiosystem {
          void changebw( name from, name receiver,
                         asset stake_net_quantity, asset stake_cpu_quantity, bool transfer );
          void update_voting_power( const name& voter, const asset& total_update );
-         void update_proposal_votes( const name voter_name, double weight );
+         void update_proposal_votes( const name voter_name, int64_t weight );
 
 
          // defined in prooducer_pay.cpp
@@ -787,7 +787,7 @@ namespace eosiosystem {
          void update_elected_producers( block_timestamp timestamp );
          void add_elected_producers( name new_producer, public_key key, std::string url, uint16_t loc, uint64_t proposal_id );
          void remove_elected_producers( name new_producer, uint64_t proposal_id );
-         double stake_to_proposal_votes( int64_t staked );
+         int64_t stake_to_proposal_votes( int64_t staked );
          void update_votes( const name voter, const name proxy, const std::vector<name>& producers, bool voting );
          void propagate_weight_change( const voter_info& voter );
          double update_producer_votepay_share( const producers_table2::const_iterator& prod_itr,
