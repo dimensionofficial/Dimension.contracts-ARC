@@ -100,7 +100,10 @@ namespace eosiosystem {
 
        auto prop = _proposals.find( proposal_id );
        check(prop != _proposals.end(), "proposal_id not in _proposals");
-       check(ct > prop->end_time, "proposal not end");
+       if(get_producers_size() > 7) { // 多于7个时检查
+           check(ct > prop->end_time, "proposal not end");
+       }
+            
        
       // 检查proposal == 1是否满足条件，是这执行
         if( prop->type == 1 ) {
@@ -134,7 +137,7 @@ namespace eosiosystem {
    }
 
    //发起提案，只有gnode才可以发起提案。
-   // type 1: add bp 2: remove bp 3: switch consensus
+   // type 1: add bp 2: remove bp 3: switch consensus 
    void system_contract::newproposal( const name owner, const name account, uint32_t block_height, int16_t type, int16_t status) {
        require_auth( owner );
        const auto ct = current_time_point();
