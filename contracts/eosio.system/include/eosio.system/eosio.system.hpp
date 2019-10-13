@@ -95,6 +95,7 @@ namespace eosiosystem {
       int64_t              perblock_bucket = 10000000;
       uint32_t             total_unpaid_blocks = 0; /// all blocks which have been produced but not paid
       int64_t              total_activated_stake = 0;
+      double               total_proposal_stake = 0;
       time_point           thresh_activated_stake_time;
       uint16_t             last_producer_schedule_size = 0;
       double               total_producer_vote_weight = 0; /// the sum of all producer votes
@@ -106,7 +107,8 @@ namespace eosiosystem {
       EOSLIB_SERIALIZE_DERIVED( eosio_global_state, eosio::blockchain_parameters,
                                 (max_ram_size)(total_ram_bytes_reserved)(total_ram_stake)
                                 (test)(last_producer_schedule_update)(last_pervote_bucket_fill)
-                                (pervote_bucket)(perblock_bucket)(total_unpaid_blocks)(total_activated_stake)(thresh_activated_stake_time)
+                                (pervote_bucket)(perblock_bucket)(total_unpaid_blocks)(total_activated_stake)
+                                (total_proposal_stake)(thresh_activated_stake_time)
                                 (last_producer_schedule_size)(total_producer_vote_weight)(last_name_close)
                                 (reward_pre_block)(proposal_num) )
    };
