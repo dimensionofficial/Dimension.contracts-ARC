@@ -500,6 +500,7 @@ namespace eosiosystem {
 
       if( weight != 0 ) {
           update_proposal_votes(change_account, weight);
+          _gstate.total_proposal_stake += weight;
       }
    } // delegatebw
 
@@ -531,6 +532,7 @@ namespace eosiosystem {
       double weight = pvote_weight_new - pvote_weight_old;
       if( weight != 0 ) {
           update_proposal_votes(from, weight);
+          _gstate.total_proposal_stake += weight; //更新票总数
       }
    } // undelegatebw
 
