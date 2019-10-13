@@ -265,7 +265,7 @@ namespace eosiosystem {
                                indexed_by<"prototalvote"_n, const_mem_fun<producer_info, double, &producer_info::by_votes> > > producers_table;
    typedef eosio::multi_index< "producers2"_n, producer_info2 > producers_table2;
 
-   typedef eosio::multi_index< "producers3"_n, goverance_node_info > goverance_node_table;
+   typedef eosio::multi_index< "gnode"_n, goverance_node_info > goverance_node_table;
 
    typedef eosio::multi_index< "propvote"_n, proposal_vote_info > proposal_vote_table;
 
