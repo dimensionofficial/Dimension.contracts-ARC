@@ -148,6 +148,11 @@ namespace eosiosystem {
            check(owner == account, "can not add other account to bp");
        }
 
+       //account必须是出块节点
+       if（type == 2） {
+
+       }
+
        uint64_t fee = _gstate3.new_proposal_fee;
        INLINE_ACTION_SENDER(eosio::token, transfer)(
           token_account, { {owner, active_permission} },
