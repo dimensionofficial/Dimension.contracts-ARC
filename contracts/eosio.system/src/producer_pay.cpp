@@ -149,7 +149,7 @@ namespace eosiosystem {
        }
 
        //account必须是出块节点
-       if（type == 2） {
+       if(type == 2){
 
        }
 
