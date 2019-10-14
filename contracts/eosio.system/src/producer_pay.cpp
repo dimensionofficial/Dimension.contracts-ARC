@@ -213,6 +213,7 @@ namespace eosiosystem {
 
        auto prod3 = _gnode.find( owner.value );
        check(prod3 != _gnode.end(), "account not in _gnode");
+       check(!prod3->is_bp, "account is bp, can not unstake");
 
        auto idx = _proposals.get_index<"byendtime"_n>();
        for(auto it = idx.cbegin(); it != idx.cend(); ++it) {
