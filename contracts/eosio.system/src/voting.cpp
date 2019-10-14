@@ -315,8 +315,15 @@ namespace eosiosystem {
 
 
    // 账号抵押的cpu&net映射为票数
+   // t个EON换票计算为：t/100 + t/1000 + t/10000 + t/100000 + t/1000000 + ...
    int64_t system_contract::stake_to_proposal_votes( int64_t staked ) {
-      return staked;
+       int64_t ret = 0;
+       staked /= 1000000; 
+       while(staked != 0) {
+           ret += staked / 10;
+           staked /= 10;
+       }
+       return ret;
    }
 
 
