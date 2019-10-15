@@ -1,4 +1,4 @@
-eosio.token
+eonio.token
 -----------
 
 This eosio contract allows users to create, issue, and manage tokens on

@@ -11,7 +11,7 @@ This repository contains examples of these privileged contracts that are useful 
    * [eon.wrap](https://github.com/eosio/eosio.contracts/tree/master/eosio.wrap)
 
 The following unprivileged contract(s) are also part of the system.
-   * [eon.token](https://github.com/eosio/eosio.contracts/tree/master/eosio.token)
+   * [eon.token](https://github.com/eosio/eosio.contracts/tree/master/eonio.token)
 
 Dependencies:
 * [dimension v1.7.x](https://github.com/EOSIO/eos/releases/tag/v1.7.0)

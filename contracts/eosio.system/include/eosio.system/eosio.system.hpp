@@ -386,19 +386,19 @@ namespace eosiosystem {
 
       public:
          static constexpr eosio::name active_permission{"active"_n};
-         static constexpr eosio::name token_account{"eosio.token"_n};
-         static constexpr eosio::name ram_account{"eosio.ram"_n};
-         static constexpr eosio::name ramfee_account{"eosio.ramfee"_n};
-         static constexpr eosio::name stake_account{"eosio.stake"_n};
-         static constexpr eosio::name bpay_account{"eosio.bpay"_n};
-         static constexpr eosio::name vpay_account{"eosio.vpay"_n};
-         static constexpr eosio::name names_account{"eosio.names"_n};
-         static constexpr eosio::name saving_account{"eosio.saving"_n};
-         static constexpr eosio::name blkpay_account{"eosio.blkpay"_n};
-         static constexpr eosio::name bpstk_account{"eosio.bpstk"_n};
-         static constexpr eosio::name prop_account{"eosio.prop"_n};
-         static constexpr eosio::name rex_account{"eosio.rex"_n};
-         static constexpr eosio::name null_account{"eosio.null"_n};
+         static constexpr eosio::name token_account{"eonio.token"_n};
+         static constexpr eosio::name ram_account{"eonio.ram"_n};
+         static constexpr eosio::name ramfee_account{"eonio.ramfee"_n};
+         static constexpr eosio::name stake_account{"eonio.stake"_n};
+         static constexpr eosio::name bpay_account{"eonio.bpay"_n};
+         static constexpr eosio::name vpay_account{"eonio.vpay"_n};
+         static constexpr eosio::name names_account{"eonio.names"_n};
+         static constexpr eosio::name saving_account{"eonio.saving"_n};
+         static constexpr eosio::name blkpay_account{"eonio.blkpay"_n};
+         static constexpr eosio::name bpstk_account{"eonio.bpstk"_n};
+         static constexpr eosio::name prop_account{"eonio.prop"_n};
+         static constexpr eosio::name rex_account{"eonio.rex"_n};
+         static constexpr eosio::name null_account{"eonio.null"_n};
          static constexpr symbol ramcore_symbol = symbol(symbol_code("RAMCORE"), 4);
          static constexpr symbol ram_symbol     = symbol(symbol_code("RAM"), 0);
          static constexpr symbol rex_symbol     = symbol(symbol_code("REX"), 4);
