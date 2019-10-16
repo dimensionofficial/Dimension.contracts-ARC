@@ -1,11 +1,11 @@
-eosio.msig
+eonio.msig
 --------
 
 Actions:
 The naming convention is codeaccount::actionname followed by a list of paramters.
 
 Create a proposal
-## eosio.msig::propose    proposer proposal_name requested trx
+## eonio.msig::propose    proposer proposal_name requested trx
    - **proposer** account proposing a transaction
    - **proposal_name** name of the proposal (should be unique for proposer)
    - **requested** permission levels expected to approve the proposal
@@ -14,7 +14,7 @@ Create a proposal
    Storage changes are billed to 'proposer'
 
 Approve a proposal
-## eosio.msig::approve    proposer proposal_name level
+## eonio.msig::approve    proposer proposal_name level
    - **proposer** account proposing a transaction
    - **proposal_name** name of the proposal
    - **level** permission level approving the transaction
@@ -22,7 +22,7 @@ Approve a proposal
    Storage changes are billed to 'proposer'
 
 Revoke an approval of transaction
-## eosio.msig::unapprove    proposer proposal_name level
+## eonio.msig::unapprove    proposer proposal_name level
    - **proposer** account proposing a transaction
    - **proposal_name** name of the proposal
    - **level** permission level revoking approval from the transaction
@@ -30,13 +30,13 @@ Revoke an approval of transaction
    Storage changes are billed to 'proposer'
 
 Cancel a proposal
-## eosio.msig::cancel    proposer proposal_name canceler
+## eonio.msig::cancel    proposer proposal_name canceler
    - **proposer** account proposing a transaction
    - **proposal_name** name of the proposal
    - **canceler** account canceling the transaction (only proposer can cancel not expired transaction)
 
 Execute a proposal
-## eosio.msig::exec    proposer proposal_name executer
+## eonio.msig::exec    proposer proposal_name executer
    - **proposer** account proposing a transaction
    - **proposal_name** name of the proposal
    - **executer** account executing the transaction
