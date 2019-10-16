@@ -14,8 +14,8 @@ The following unprivileged contract(s) are also part of the system.
    * [eonio.token](https://github.com/eosio/eosio.contracts/tree/master/eonio.token)
 
 Dependencies:
-* [dimension v1.7.x](https://github.com/EOSIO/eos/releases/tag/v1.7.0)
-* [dimension.cdt v1.5.x](https://github.com/EOSIO/eosio.cdt/releases/tag/v1.5.0)
+* [dimension v1.7.x](https://github.com/dimensionofficial/dimension/releases/tag/v1.7.0)
+* [dimension.cdt v1.5.x](https://github.com/dimensionofficial/dimension.cdt/releases/tag/v1.5.0)
 
 To build the contracts and the unit tests:
 * First, ensure that your __dimension__ is compiled to the core symbol for the dimension blockchain that intend to deploy to.
