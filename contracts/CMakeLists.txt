@@ -5,7 +5,7 @@ project(contracts)
 set(EOSIO_WASM_OLD_BEHAVIOR "Off")
 find_package(eosio.cdt)
 
-add_subdirectory(eosio.bios)
+add_subdirectory(eonio.bios)
 add_subdirectory(eonio.msig)
 add_subdirectory(eonio.system)
 add_subdirectory(eonio.token)

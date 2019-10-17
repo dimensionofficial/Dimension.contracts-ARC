@@ -59,7 +59,7 @@ namespace eosio {
                                      (schedule_version)(new_producers))
    };
 
-   class [[eosio::contract("eosio.bios")]] bios : public contract {
+   class [[eosio::contract("eonio.bios")]] bios : public contract {
       public:
          using contract::contract;
          [[eosio::action]]
