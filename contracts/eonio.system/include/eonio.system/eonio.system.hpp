@@ -4,12 +4,12 @@
  */
 #pragma once
 
-#include <eosio.system/native.hpp>
+#include <eonio.system/native.hpp>
 #include <eosiolib/asset.hpp>
 #include <eosiolib/time.hpp>
 #include <eosiolib/privileged.hpp>
 #include <eosiolib/singleton.hpp>
-#include <eosio.system/exchange_state.hpp>
+#include <eonio.system/exchange_state.hpp>
 
 #include <string>
 #include <deque>
@@ -58,7 +58,7 @@ namespace eosiosystem {
          return ( flags & ~static_cast<F>(field) );
    }
 
-   struct [[eosio::table, eosio::contract("eosio.system")]] name_bid {
+   struct [[eosio::table, eosio::contract("eonio.system")]] name_bid {
      name            newname;
      name            high_bidder;
      int64_t         high_bid = 0; ///< negative high_bid == closed auction waiting to be claimed
@@ -68,7 +68,7 @@ namespace eosiosystem {
      uint64_t by_high_bid()const { return static_cast<uint64_t>(-high_bid); }
    };
 
-   struct [[eosio::table, eosio::contract("eosio.system")]] bid_refund {
+   struct [[eosio::table, eosio::contract("eonio.system")]] bid_refund {
       name         bidder;
       asset        amount;
 
@@ -81,7 +81,7 @@ namespace eosiosystem {
 
    typedef eosio::multi_index< "bidrefunds"_n, bid_refund > bid_refund_table;
 
-   struct [[eosio::table("global"), eosio::contract("eosio.system")]] eosio_global_state : eosio::blockchain_parameters {
+   struct [[eosio::table("global"), eosio::contract("eonio.system")]] eosio_global_state : eosio::blockchain_parameters {
       uint64_t free_ram()const { return max_ram_size - total_ram_bytes_reserved; }
 
       uint64_t             max_ram_size = 64ll*1024 * 1024 * 1024;
@@ -116,7 +116,7 @@ namespace eosiosystem {
    /**
     * Defines new global state parameters added after version 1.0
     */
-   struct [[eosio::table("global2"), eosio::contract("eosio.system")]] eosio_global_state2 {
+   struct [[eosio::table("global2"), eosio::contract("eonio.system")]] eosio_global_state2 {
       eosio_global_state2(){}
 
       uint16_t          new_ram_per_block = 0;
@@ -129,7 +129,7 @@ namespace eosiosystem {
                         (total_producer_votepay_share)(revision) )
    };
 
-   struct [[eosio::table("global3"), eosio::contract("eosio.system")]] eosio_global_state3 {
+   struct [[eosio::table("global3"), eosio::contract("eonio.system")]] eosio_global_state3 {
       eosio_global_state3() { }
       time_point        last_vpay_state_update;
       double            total_vpay_share_change_rate = 0;
@@ -141,7 +141,7 @@ namespace eosiosystem {
                                              (stake_to_gnode_fee)(new_proposal_fee)(min_producer_size) )
    };
 
-   struct [[eosio::table, eosio::contract("eosio.system")]] producer_info {
+   struct [[eosio::table, eosio::contract("eonio.system")]] producer_info {
       name                  owner;
       double                total_votes = 0;
       eosio::public_key     producer_key; /// a packed public key object
@@ -161,7 +161,7 @@ namespace eosiosystem {
                         (unpaid_blocks)(last_claim_time)(location) )
    };
 
-   struct [[eosio::table, eosio::contract("eosio.system")]] producer_info2 {
+   struct [[eosio::table, eosio::contract("eonio.system")]] producer_info2 {
       name            owner;
       double          votepay_share = 0;
       time_point      last_votepay_share_update;
@@ -172,7 +172,7 @@ namespace eosiosystem {
       EOSLIB_SERIALIZE( producer_info2, (owner)(votepay_share)(last_votepay_share_update) )
    };
 
-   struct [[eosio::table, eosio::contract("eosio.system")]] goverance_node_info {
+   struct [[eosio::table, eosio::contract("eonio.system")]] goverance_node_info {
       name                  owner;
             
       int64_t               bp_staked = 0;
@@ -188,7 +188,7 @@ namespace eosiosystem {
       EOSLIB_SERIALIZE( goverance_node_info, (owner)(bp_staked)(stake_time)(is_bp)(status)(producer_key)(url)(location) )
    };
 
-   struct [[eosio::table, eosio::contract("eosio.system")]] proposal_vote_info {
+   struct [[eosio::table, eosio::contract("eonio.system")]] proposal_vote_info {
       name            owner;
       
       bool            vote;
@@ -199,7 +199,7 @@ namespace eosiosystem {
       EOSLIB_SERIALIZE( proposal_vote_info, (owner)(vote)(vote_time) )
    };
 
-   struct [[eosio::table, eosio::contract("eosio.system")]] proposal_info {
+   struct [[eosio::table, eosio::contract("eonio.system")]] proposal_info {
       uint64_t        id;
 
       name            owner;
@@ -221,7 +221,7 @@ namespace eosiosystem {
                                        (block_height)(type)(is_satisfy)(is_exec)(status)(total_yeas)(total_nays) )
    };
 
-   struct [[eosio::table, eosio::contract("eosio.system")]] voter_info {
+   struct [[eosio::table, eosio::contract("eonio.system")]] voter_info {
       name                owner;     /// the voter
       name                proxy;     /// the proxy set by the voter, if any
       std::vector<name>   producers; /// the producers approved by this voter if no proxy set
@@ -278,7 +278,7 @@ namespace eosiosystem {
 
    static constexpr uint32_t     seconds_per_day = 24 * 3600;
 
-   struct [[eosio::table,eosio::contract("eosio.system")]] rex_pool {
+   struct [[eosio::table,eosio::contract("eonio.system")]] rex_pool {
       uint8_t    version = 0;
       asset      total_lent; /// total amount of CORE_SYMBOL in open rex_loans
       asset      total_unlent; /// total amount of CORE_SYMBOL available to be lent (connector)
@@ -293,7 +293,7 @@ namespace eosiosystem {
 
    typedef eosio::multi_index< "rexpool"_n, rex_pool > rex_pool_table;
 
-   struct [[eosio::table,eosio::contract("eosio.system")]] rex_fund {
+   struct [[eosio::table,eosio::contract("eonio.system")]] rex_fund {
       uint8_t version = 0;
       name    owner;
       asset   balance;
@@ -303,7 +303,7 @@ namespace eosiosystem {
 
    typedef eosio::multi_index< "rexfund"_n, rex_fund > rex_fund_table;
 
-   struct [[eosio::table,eosio::contract("eosio.system")]] rex_balance {
+   struct [[eosio::table,eosio::contract("eonio.system")]] rex_balance {
       uint8_t version = 0;
       name    owner;
       asset   vote_stake; /// the amount of CORE_SYMBOL currently included in owner's vote
@@ -316,7 +316,7 @@ namespace eosiosystem {
 
    typedef eosio::multi_index< "rexbal"_n, rex_balance > rex_balance_table;
 
-   struct [[eosio::table,eosio::contract("eosio.system")]] rex_loan {
+   struct [[eosio::table,eosio::contract("eonio.system")]] rex_loan {
       uint8_t             version = 0;
       name                from;
       name                receiver;
@@ -341,7 +341,7 @@ namespace eosiosystem {
                                indexed_by<"byowner"_n, const_mem_fun<rex_loan, uint64_t, &rex_loan::by_owner>>
                              > rex_net_loan_table;
 
-   struct [[eosio::table,eosio::contract("eosio.system")]] rex_order {
+   struct [[eosio::table,eosio::contract("eonio.system")]] rex_order {
       uint8_t             version = 0;
       name                owner;
       asset               rex_requested;
@@ -364,7 +364,7 @@ namespace eosiosystem {
       asset stake_change;
    };
 
-   class [[eosio::contract("eosio.system")]] system_contract : public native {
+   class [[eosio::contract("eonio.system")]] system_contract : public native {
 
       private:
          voters_table            _voters;
@@ -730,7 +730,7 @@ namespace eosiosystem {
             return itr->quote.balance.symbol;
          }
 
-         //defined in eosio.system.cpp
+         //defined in eonio.system.cpp
          static eosio_global_state get_default_parameters();
          static time_point current_time_point();
          static time_point_sec current_time_point_sec();

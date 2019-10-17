@@ -1,4 +1,4 @@
-#include <eosio.system/eosio.system.hpp>
+#include <eonio.system/eonio.system.hpp>
 #include <eosiolib/dispatcher.hpp>
 #include <eosiolib/crypto.h>
 
@@ -458,13 +458,13 @@ namespace eosiosystem {
                                                 { rex_account, core, _self } );
    }
 
-} /// eosio.system
+} /// eonio.system
 
 
 EOSIO_DISPATCH( eosiosystem::system_contract,
-     // native.hpp (newaccount definition is actually in eosio.system.cpp)
+     // native.hpp (newaccount definition is actually in eonio.system.cpp)
      (newaccount)(updateauth)(deleteauth)(linkauth)(unlinkauth)(canceldelay)(onerror)(setabi)
-     // eosio.system.cpp
+     // eonio.system.cpp
      (init)(setram)(setramrate)(setparams)(setpriv)(setalimits)(setacctram)(setacctnet)(setacctcpu)
      (rmvproducer)(updtrevision)(bidname)(bidrefund)
      // rex.cpp

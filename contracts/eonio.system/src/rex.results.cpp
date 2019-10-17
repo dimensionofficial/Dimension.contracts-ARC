@@ -1,4 +1,4 @@
-#include <eosio.system/rex.results.hpp>
+#include <eonio.system/rex.results.hpp>
 
 void rex_results::buyresult( const asset& rex_received ) { }
 

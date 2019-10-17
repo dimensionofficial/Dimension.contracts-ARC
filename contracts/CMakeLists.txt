@@ -7,6 +7,6 @@ find_package(eosio.cdt)
 
 add_subdirectory(eosio.bios)
 add_subdirectory(eonio.msig)
-add_subdirectory(eosio.system)
+add_subdirectory(eonio.system)
 add_subdirectory(eonio.token)
 add_subdirectory(eosio.wrap)

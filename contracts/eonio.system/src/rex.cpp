@@ -2,8 +2,8 @@
  *  @copyright defined in eos/LICENSE.txt
  */
 
-#include <eosio.system/eosio.system.hpp>
-#include <eosio.system/rex.results.hpp>
+#include <eonio.system/eonio.system.hpp>
+#include <eonio.system/rex.results.hpp>
 
 namespace eosiosystem {
 
