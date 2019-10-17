@@ -433,7 +433,7 @@ namespace eosiosystem {
          // functions defined in delegate_bandwidth.cpp
 
          /**
-          *  Stakes SYS from the balance of 'from' for the benfit of 'receiver'.
+          *  Stakes EON from the balance of 'from' for the benfit of 'receiver'.
           *  If transfer == true, then 'receiver' can unstake to their account
           *  Else 'from' can unstake at any time.
           */
@@ -492,8 +492,8 @@ namespace eosiosystem {
          void cnclrexorder( const name& owner );
 
          /**
-          * Use payment to rent as many SYS tokens as possible and stake them for either CPU or NET for the
-          * benefit of receiver, after 30 days the rented SYS delegation of CPU or NET will expire unless loan
+          * Use payment to rent as many EON tokens as possible and stake them for either CPU or NET for the
+          * benefit of receiver, after 30 days the rented EON delegation of CPU or NET will expire unless loan
           * balance is larger than or equal to payment.
           *
           * If loan has enough balance, it gets renewed at current market price, otherwise, it is closed and
