@@ -10,7 +10,7 @@
 #include <eosio/chain/exceptions.hpp>
 #include <Runtime/Runtime.h>
 
-#include "eosio.system_tester.hpp"
+#include "eonio.system_tester.hpp"
 struct _abi_hash {
    name owner;
    fc::sha256 hash;

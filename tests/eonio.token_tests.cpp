@@ -1,7 +1,7 @@
 #include <boost/test/unit_test.hpp>
 #include <eosio/testing/tester.hpp>
 #include <eosio/chain/abi_serializer.hpp>
-#include "eosio.system_tester.hpp"
+#include "eonio.system_tester.hpp"
 
 #include "Runtime/Runtime.h"
 
