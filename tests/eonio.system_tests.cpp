@@ -31,12 +31,12 @@ BOOST_FIXTURE_TEST_CASE( buysell, eosio_system_tester ) try {
    auto total = get_total_stake( "alice1111111" );
    auto init_bytes =  total["ram_bytes"].as_uint64();
 
-   const asset initial_ram_balance = get_balance(N(eosio.ram));
-   const asset initial_ramfee_balance = get_balance(N(eosio.ramfee));
+   const asset initial_ram_balance = get_balance(N(eonio.ram));
+   const asset initial_ramfee_balance = get_balance(N(eonio.ramfee));
    BOOST_REQUIRE_EQUAL( success(), buyram( "alice1111111", "alice1111111", core_sym::from_string("200.0000") ) );
    BOOST_REQUIRE_EQUAL( core_sym::from_string("800.0000"), get_balance( "alice1111111" ) );
-   BOOST_REQUIRE_EQUAL( initial_ram_balance + core_sym::from_string("199.0000"), get_balance(N(eosio.ram)) );
-   BOOST_REQUIRE_EQUAL( initial_ramfee_balance + core_sym::from_string("1.0000"), get_balance(N(eosio.ramfee)) );
+   BOOST_REQUIRE_EQUAL( initial_ram_balance + core_sym::from_string("199.0000"), get_balance(N(eonio.ram)) );
+   BOOST_REQUIRE_EQUAL( initial_ramfee_balance + core_sym::from_string("1.0000"), get_balance(N(eonio.ramfee)) );
 
    total = get_total_stake( "alice1111111" );
    auto bytes = total["ram_bytes"].as_uint64();
@@ -3319,8 +3319,8 @@ BOOST_FIXTURE_TEST_CASE( eosioram_ramusage, eosio_system_tester ) try {
    transfer( "eonio", "alice1111111", core_sym::from_string("1000.0000"), "eonio" );
    BOOST_REQUIRE_EQUAL( success(), stake( "eonio", "alice1111111", core_sym::from_string("200.0000"), core_sym::from_string("100.0000") ) );
 
-   const asset initial_ram_balance = get_balance(N(eosio.ram));
-   const asset initial_ramfee_balance = get_balance(N(eosio.ramfee));
+   const asset initial_ram_balance = get_balance(N(eonio.ram));
+   const asset initial_ramfee_balance = get_balance(N(eonio.ramfee));
    BOOST_REQUIRE_EQUAL( success(), buyram( "alice1111111", "alice1111111", core_sym::from_string("1000.0000") ) );
 
    BOOST_REQUIRE_EQUAL( false, get_row_by_account( N(eonio.token), N(alice1111111), N(accounts), symbol{CORE_SYM}.to_symbol_code() ).empty() );
@@ -3333,14 +3333,14 @@ BOOST_FIXTURE_TEST_CASE( eosioram_ramusage, eosio_system_tester ) try {
    BOOST_REQUIRE_EQUAL( true, get_row_by_account( N(eonio.token), N(alice1111111), N(accounts), symbol{CORE_SYM}.to_symbol_code() ).empty() );
 
    auto rlm = control->get_resource_limits_manager();
-   auto eosioram_ram_usage = rlm.get_account_ram_usage(N(eosio.ram));
+   auto eosioram_ram_usage = rlm.get_account_ram_usage(N(eonio.ram));
    auto alice_ram_usage = rlm.get_account_ram_usage(N(alice1111111));
 
    BOOST_REQUIRE_EQUAL( success(), sellram( "alice1111111", 2048 ) );
 
-   //make sure that ram was billed to alice, not to eosio.ram
+   //make sure that ram was billed to alice, not to eonio.ram
    BOOST_REQUIRE_EQUAL( true, alice_ram_usage < rlm.get_account_ram_usage(N(alice1111111)) );
-   BOOST_REQUIRE_EQUAL( eosioram_ram_usage, rlm.get_account_ram_usage(N(eosio.ram)) );
+   BOOST_REQUIRE_EQUAL( eosioram_ram_usage, rlm.get_account_ram_usage(N(eonio.ram)) );
 
 } FC_LOG_AND_RETHROW()
 
@@ -4101,18 +4101,18 @@ BOOST_FIXTURE_TEST_CASE( ramfee_namebid_to_rex, eosio_system_tester ) try {
    account_name alice = accounts[0], bob = accounts[1], carol = accounts[2], emily = accounts[3], frank = accounts[4];
    setup_rex_accounts( accounts, init_balance, core_sym::from_string("80.0000"), core_sym::from_string("80.0000"), false );
 
-   asset cur_ramfee_balance = get_balance( N(eosio.ramfee) );
+   asset cur_ramfee_balance = get_balance( N(eonio.ramfee) );
    BOOST_REQUIRE_EQUAL( success(),                      buyram( alice, alice, core_sym::from_string("20.0000") ) );
-   BOOST_REQUIRE_EQUAL( get_balance( N(eosio.ramfee) ), core_sym::from_string("0.1000") + cur_ramfee_balance );
+   BOOST_REQUIRE_EQUAL( get_balance( N(eonio.ramfee) ), core_sym::from_string("0.1000") + cur_ramfee_balance );
    BOOST_REQUIRE_EQUAL( wasm_assert_msg("must deposit to REX fund first"),
                         buyrex( alice, core_sym::from_string("350.0000") ) );
    BOOST_REQUIRE_EQUAL( success(),                      deposit( alice, core_sym::from_string("350.0000") ) );
    BOOST_REQUIRE_EQUAL( success(),                      buyrex( alice, core_sym::from_string("350.0000") ) );
-   cur_ramfee_balance = get_balance( N(eosio.ramfee) );
+   cur_ramfee_balance = get_balance( N(eonio.ramfee) );
    asset cur_rex_balance = get_balance( N(eosio.rex) );
    BOOST_REQUIRE_EQUAL( core_sym::from_string("350.0000"), cur_rex_balance );
    BOOST_REQUIRE_EQUAL( success(),                         buyram( bob, carol, core_sym::from_string("70.0000") ) );
-   BOOST_REQUIRE_EQUAL( cur_ramfee_balance,                get_balance( N(eosio.ramfee) ) );
+   BOOST_REQUIRE_EQUAL( cur_ramfee_balance,                get_balance( N(eonio.ramfee) ) );
    BOOST_REQUIRE_EQUAL( get_balance( N(eosio.rex) ),       cur_rex_balance + core_sym::from_string("0.3500") );
 
    cur_rex_balance = get_balance( N(eosio.rex) );
