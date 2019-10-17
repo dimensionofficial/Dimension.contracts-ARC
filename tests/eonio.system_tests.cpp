@@ -1224,7 +1224,7 @@ BOOST_FIXTURE_TEST_CASE(producer_pay, eosio_system_tester, * boost::unit_test::t
       const uint64_t initial_claim_time        = microseconds_since_epoch_of_iso_string( initial_global_state["last_pervote_bucket_fill"] );
       const int64_t  initial_pervote_bucket    = initial_global_state["pervote_bucket"].as<int64_t>();
       const int64_t  initial_perblock_bucket   = initial_global_state["perblock_bucket"].as<int64_t>();
-      const int64_t  initial_savings           = get_balance(N(eosio.saving)).get_amount();
+      const int64_t  initial_savings           = get_balance(N(eonio.saving)).get_amount();
       const uint32_t initial_tot_unpaid_blocks = initial_global_state["total_unpaid_blocks"].as<uint32_t>();
 
       prod = get_producer_info("defproducera");
@@ -1242,7 +1242,7 @@ BOOST_FIXTURE_TEST_CASE(producer_pay, eosio_system_tester, * boost::unit_test::t
       const uint64_t claim_time        = microseconds_since_epoch_of_iso_string( global_state["last_pervote_bucket_fill"] );
       const int64_t  pervote_bucket    = global_state["pervote_bucket"].as<int64_t>();
       const int64_t  perblock_bucket   = global_state["perblock_bucket"].as<int64_t>();
-      const int64_t  savings           = get_balance(N(eosio.saving)).get_amount();
+      const int64_t  savings           = get_balance(N(eonio.saving)).get_amount();
       const uint32_t tot_unpaid_blocks = global_state["total_unpaid_blocks"].as<uint32_t>();
 
       prod = get_producer_info("defproducera");
@@ -1300,7 +1300,7 @@ BOOST_FIXTURE_TEST_CASE(producer_pay, eosio_system_tester, * boost::unit_test::t
       const uint64_t initial_claim_time        = microseconds_since_epoch_of_iso_string( initial_global_state["last_pervote_bucket_fill"] );
       const int64_t  initial_pervote_bucket    = initial_global_state["pervote_bucket"].as<int64_t>();
       const int64_t  initial_perblock_bucket   = initial_global_state["perblock_bucket"].as<int64_t>();
-      const int64_t  initial_savings           = get_balance(N(eosio.saving)).get_amount();
+      const int64_t  initial_savings           = get_balance(N(eonio.saving)).get_amount();
       const uint32_t initial_tot_unpaid_blocks = initial_global_state["total_unpaid_blocks"].as<uint32_t>();
       const double   initial_tot_vote_weight   = initial_global_state["total_producer_vote_weight"].as<double>();
 
@@ -1323,7 +1323,7 @@ BOOST_FIXTURE_TEST_CASE(producer_pay, eosio_system_tester, * boost::unit_test::t
       const uint64_t claim_time        = microseconds_since_epoch_of_iso_string( global_state["last_pervote_bucket_fill"] );
       const int64_t  pervote_bucket    = global_state["pervote_bucket"].as<int64_t>();
       const int64_t  perblock_bucket   = global_state["perblock_bucket"].as<int64_t>();
-      const int64_t  savings           = get_balance(N(eosio.saving)).get_amount();
+      const int64_t  savings           = get_balance(N(eonio.saving)).get_amount();
       const uint32_t tot_unpaid_blocks = global_state["total_unpaid_blocks"].as<uint32_t>();
 
       prod = get_producer_info("defproducera");
@@ -1365,7 +1365,7 @@ BOOST_FIXTURE_TEST_CASE(producer_pay, eosio_system_tester, * boost::unit_test::t
       regproducer(N(defproducerc));
       produce_block(fc::hours(24));
       const asset   initial_supply  = get_token_supply();
-      const int64_t initial_savings = get_balance(N(eosio.saving)).get_amount();
+      const int64_t initial_savings = get_balance(N(eonio.saving)).get_amount();
       for (uint32_t i = 0; i < 7 * 52; ++i) {
          produce_block(fc::seconds(8 * 3600));
          BOOST_REQUIRE_EQUAL(success(), push_action(N(defproducerc), N(claimrewards), mvo()("owner", "defproducerc")));
@@ -1375,7 +1375,7 @@ BOOST_FIXTURE_TEST_CASE(producer_pay, eosio_system_tester, * boost::unit_test::t
          BOOST_REQUIRE_EQUAL(success(), push_action(N(defproducera), N(claimrewards), mvo()("owner", "defproducera")));
       }
       const asset   supply  = get_token_supply();
-      const int64_t savings = get_balance(N(eosio.saving)).get_amount();
+      const int64_t savings = get_balance(N(eonio.saving)).get_amount();
       // Amount issued per year is very close to the 5% inflation target. Small difference (500 tokens out of 50'000'000 issued)
       // is due to compounding every 8 hours in this test as opposed to theoretical continuous compounding
       BOOST_REQUIRE(500 * 10000 > int64_t(double(initial_supply.get_amount()) * double(0.05)) - (supply.get_amount() - initial_supply.get_amount()));
@@ -1500,11 +1500,11 @@ BOOST_FIXTURE_TEST_CASE(multiple_producer_pay, eosio_system_tester, * boost::uni
       const uint64_t initial_claim_time        = microseconds_since_epoch_of_iso_string( initial_global_state["last_pervote_bucket_fill"] );
       const int64_t  initial_pervote_bucket    = initial_global_state["pervote_bucket"].as<int64_t>();
       const int64_t  initial_perblock_bucket   = initial_global_state["perblock_bucket"].as<int64_t>();
-      const int64_t  initial_savings           = get_balance(N(eosio.saving)).get_amount();
+      const int64_t  initial_savings           = get_balance(N(eonio.saving)).get_amount();
       const uint32_t initial_tot_unpaid_blocks = initial_global_state["total_unpaid_blocks"].as<uint32_t>();
       const asset    initial_supply            = get_token_supply();
-      const asset    initial_bpay_balance      = get_balance(N(eosio.bpay));
-      const asset    initial_vpay_balance      = get_balance(N(eosio.vpay));
+      const asset    initial_bpay_balance      = get_balance(N(eonio.bpay));
+      const asset    initial_vpay_balance      = get_balance(N(eonio.vpay));
       const asset    initial_balance           = get_balance(prod_name);
       const uint32_t initial_unpaid_blocks     = get_producer_info(prod_name)["unpaid_blocks"].as<uint32_t>();
 
@@ -1514,11 +1514,11 @@ BOOST_FIXTURE_TEST_CASE(multiple_producer_pay, eosio_system_tester, * boost::uni
       const uint64_t claim_time        = microseconds_since_epoch_of_iso_string( global_state["last_pervote_bucket_fill"] );
       const int64_t  pervote_bucket    = global_state["pervote_bucket"].as<int64_t>();
       const int64_t  perblock_bucket   = global_state["perblock_bucket"].as<int64_t>();
-      const int64_t  savings           = get_balance(N(eosio.saving)).get_amount();
+      const int64_t  savings           = get_balance(N(eonio.saving)).get_amount();
       const uint32_t tot_unpaid_blocks = global_state["total_unpaid_blocks"].as<uint32_t>();
       const asset    supply            = get_token_supply();
-      const asset    bpay_balance      = get_balance(N(eosio.bpay));
-      const asset    vpay_balance      = get_balance(N(eosio.vpay));
+      const asset    bpay_balance      = get_balance(N(eonio.bpay));
+      const asset    vpay_balance      = get_balance(N(eonio.vpay));
       const asset    balance           = get_balance(prod_name);
       const uint32_t unpaid_blocks     = get_producer_info(prod_name)["unpaid_blocks"].as<uint32_t>();
 
@@ -1576,11 +1576,11 @@ BOOST_FIXTURE_TEST_CASE(multiple_producer_pay, eosio_system_tester, * boost::uni
       const uint64_t initial_claim_time        = microseconds_since_epoch_of_iso_string( initial_global_state["last_pervote_bucket_fill"] );
       const int64_t  initial_pervote_bucket    = initial_global_state["pervote_bucket"].as<int64_t>();
       const int64_t  initial_perblock_bucket   = initial_global_state["perblock_bucket"].as<int64_t>();
-      const int64_t  initial_savings           = get_balance(N(eosio.saving)).get_amount();
+      const int64_t  initial_savings           = get_balance(N(eonio.saving)).get_amount();
       const uint32_t initial_tot_unpaid_blocks = initial_global_state["total_unpaid_blocks"].as<uint32_t>();
       const asset    initial_supply            = get_token_supply();
-      const asset    initial_bpay_balance      = get_balance(N(eosio.bpay));
-      const asset    initial_vpay_balance      = get_balance(N(eosio.vpay));
+      const asset    initial_bpay_balance      = get_balance(N(eonio.bpay));
+      const asset    initial_vpay_balance      = get_balance(N(eonio.vpay));
       const asset    initial_balance           = get_balance(prod_name);
       const uint32_t initial_unpaid_blocks     = get_producer_info(prod_name)["unpaid_blocks"].as<uint32_t>();
 
@@ -1590,11 +1590,11 @@ BOOST_FIXTURE_TEST_CASE(multiple_producer_pay, eosio_system_tester, * boost::uni
       const uint64_t claim_time        = microseconds_since_epoch_of_iso_string( global_state["last_pervote_bucket_fill"] );
       const int64_t  pervote_bucket    = global_state["pervote_bucket"].as<int64_t>();
       const int64_t  perblock_bucket   = global_state["perblock_bucket"].as<int64_t>();
-      const int64_t  savings           = get_balance(N(eosio.saving)).get_amount();
+      const int64_t  savings           = get_balance(N(eonio.saving)).get_amount();
       const uint32_t tot_unpaid_blocks = global_state["total_unpaid_blocks"].as<uint32_t>();
       const asset    supply            = get_token_supply();
-      const asset    bpay_balance      = get_balance(N(eosio.bpay));
-      const asset    vpay_balance      = get_balance(N(eosio.vpay));
+      const asset    bpay_balance      = get_balance(N(eonio.bpay));
+      const asset    vpay_balance      = get_balance(N(eonio.vpay));
       const asset    balance           = get_balance(prod_name);
       const uint32_t unpaid_blocks     = get_producer_info(prod_name)["unpaid_blocks"].as<uint32_t>();
 
@@ -2937,12 +2937,12 @@ BOOST_FIXTURE_TEST_CASE( multiple_namebids, eosio_system_tester ) try {
 
    // alice outbids bob on prefb
    {
-      const asset initial_names_balance = get_balance(N(eosio.names));
+      const asset initial_names_balance = get_balance(N(eonio.names));
       BOOST_REQUIRE_EQUAL( success(),
                            bidname( "alice", "prefb", core_sym::from_string("1.1001") ) );
       BOOST_REQUIRE_EQUAL( core_sym::from_string( "9997.9997" ), get_balance("bob") );
       BOOST_REQUIRE_EQUAL( core_sym::from_string( "9998.8999" ), get_balance("alice") );
-      BOOST_REQUIRE_EQUAL( initial_names_balance + core_sym::from_string("0.1001"), get_balance(N(eosio.names)) );
+      BOOST_REQUIRE_EQUAL( initial_names_balance + core_sym::from_string("0.1001"), get_balance(N(eonio.names)) );
    }
 
    // david outbids carl on prefd
@@ -3577,7 +3577,7 @@ BOOST_FIXTURE_TEST_CASE( unstake_buy_rex, eosio_system_tester, * boost::unit_tes
       BOOST_REQUIRE_EQUAL( get_net_limit( alice ),                  init_net_limit );
       BOOST_REQUIRE_EQUAL( ratio * tot_stake.get_amount(),          get_rex_balance( alice ).get_amount() );
       BOOST_REQUIRE_EQUAL( tot_stake,                               get_rex_balance_obj( alice )["vote_stake"].as<asset>() );
-      BOOST_REQUIRE_EQUAL( tot_stake,                               get_balance( N(eosio.rex) ) );
+      BOOST_REQUIRE_EQUAL( tot_stake,                               get_balance( N(eonio.rex) ) );
       BOOST_REQUIRE_EQUAL( tot_stake,                               init_eosio_stake_balance - get_balance( N(eonio.stake) ) );
       auto current_voter_info = get_voter_info( alice );
       auto current_prod_info  = get_producer_info( producer_names[0] );
@@ -4109,13 +4109,13 @@ BOOST_FIXTURE_TEST_CASE( ramfee_namebid_to_rex, eosio_system_tester ) try {
    BOOST_REQUIRE_EQUAL( success(),                      deposit( alice, core_sym::from_string("350.0000") ) );
    BOOST_REQUIRE_EQUAL( success(),                      buyrex( alice, core_sym::from_string("350.0000") ) );
    cur_ramfee_balance = get_balance( N(eonio.ramfee) );
-   asset cur_rex_balance = get_balance( N(eosio.rex) );
+   asset cur_rex_balance = get_balance( N(eonio.rex) );
    BOOST_REQUIRE_EQUAL( core_sym::from_string("350.0000"), cur_rex_balance );
    BOOST_REQUIRE_EQUAL( success(),                         buyram( bob, carol, core_sym::from_string("70.0000") ) );
    BOOST_REQUIRE_EQUAL( cur_ramfee_balance,                get_balance( N(eonio.ramfee) ) );
-   BOOST_REQUIRE_EQUAL( get_balance( N(eosio.rex) ),       cur_rex_balance + core_sym::from_string("0.3500") );
+   BOOST_REQUIRE_EQUAL( get_balance( N(eonio.rex) ),       cur_rex_balance + core_sym::from_string("0.3500") );
 
-   cur_rex_balance = get_balance( N(eosio.rex) );
+   cur_rex_balance = get_balance( N(eonio.rex) );
    auto cur_rex_pool = get_rex_pool();
 
    BOOST_REQUIRE_EQUAL( cur_rex_balance, cur_rex_pool["total_unlent"].as<asset>() );
@@ -4127,11 +4127,11 @@ BOOST_FIXTURE_TEST_CASE( ramfee_namebid_to_rex, eosio_system_tester ) try {
    cross_15_percent_threshold();
    produce_block( fc::days(14) );
 
-   cur_rex_balance = get_balance( N(eosio.rex) );
+   cur_rex_balance = get_balance( N(eonio.rex) );
    BOOST_REQUIRE_EQUAL( success(),                        bidname( carol, N(rndmbid), core_sym::from_string("23.7000") ) );
-   BOOST_REQUIRE_EQUAL( core_sym::from_string("23.7000"), get_balance( N(eosio.names) ) );
+   BOOST_REQUIRE_EQUAL( core_sym::from_string("23.7000"), get_balance( N(eonio.names) ) );
    BOOST_REQUIRE_EQUAL( success(),                        bidname( alice, N(rndmbid), core_sym::from_string("29.3500") ) );
-   BOOST_REQUIRE_EQUAL( core_sym::from_string("29.3500"), get_balance( N(eosio.names) ));
+   BOOST_REQUIRE_EQUAL( core_sym::from_string("29.3500"), get_balance( N(eonio.names) ));
 
    produce_block( fc::hours(24) );
    produce_blocks( 2 );
@@ -4139,10 +4139,10 @@ BOOST_FIXTURE_TEST_CASE( ramfee_namebid_to_rex, eosio_system_tester ) try {
    BOOST_REQUIRE_EQUAL( core_sym::from_string("29.3500"), get_rex_pool()["namebid_proceeds"].as<asset>() );
    BOOST_REQUIRE_EQUAL( success(),                        deposit( frank, core_sym::from_string("5.0000") ) );
    BOOST_REQUIRE_EQUAL( success(),                        buyrex( frank, core_sym::from_string("5.0000") ) );
-   BOOST_REQUIRE_EQUAL( get_balance( N(eosio.rex) ),      cur_rex_balance + core_sym::from_string("34.3500") );
-   BOOST_REQUIRE_EQUAL( 0,                                get_balance( N(eosio.names) ).get_amount() );
+   BOOST_REQUIRE_EQUAL( get_balance( N(eonio.rex) ),      cur_rex_balance + core_sym::from_string("34.3500") );
+   BOOST_REQUIRE_EQUAL( 0,                                get_balance( N(eonio.names) ).get_amount() );
 
-   cur_rex_balance = get_balance( N(eosio.rex) );
+   cur_rex_balance = get_balance( N(eonio.rex) );
    BOOST_REQUIRE_EQUAL( cur_rex_balance,                  get_rex_pool()["total_lendable"].as<asset>() );
    BOOST_REQUIRE_EQUAL( cur_rex_balance,                  get_rex_pool()["total_unlent"].as<asset>() );
 
@@ -4981,9 +4981,9 @@ BOOST_FIXTURE_TEST_CASE( setabi, eosio_system_tester ) try {
 BOOST_FIXTURE_TEST_CASE( change_limited_account_back_to_unlimited, eosio_system_tester ) try {
    BOOST_REQUIRE( get_total_stake( "eonio" ).is_null() );
 
-   transfer( N(eosio), N(alice1111111), core_sym::from_string("1.0000") );
+   transfer( N(eonio), N(alice1111111), core_sym::from_string("1.0000") );
 
-   auto error_msg = stake( N(alice1111111), N(eosio), core_sym::from_string("0.0000"), core_sym::from_string("1.0000") );
+   auto error_msg = stake( N(alice1111111), N(eonio), core_sym::from_string("0.0000"), core_sym::from_string("1.0000") );
    auto semicolon_pos = error_msg.find(';');
 
    BOOST_REQUIRE_EQUAL( error("account eosio has insufficient ram"),
@@ -4997,14 +4997,14 @@ BOOST_FIXTURE_TEST_CASE( change_limited_account_back_to_unlimited, eosio_system_
       ram_bytes_needed += 256; // enough room to cover total_resources_table
    }
 
-   push_action( N(eosio), N(setalimits), mvo()
+   push_action( N(eonio), N(setalimits), mvo()
                                           ("account", "eonio")
                                           ("ram_bytes", ram_bytes_needed)
                                           ("net_weight", -1)
                                           ("cpu_weight", -1)
               );
 
-   stake( N(alice1111111), N(eosio), core_sym::from_string("0.0000"), core_sym::from_string("1.0000") );
+   stake( N(alice1111111), N(eonio), core_sym::from_string("0.0000"), core_sym::from_string("1.0000") );
 
    REQUIRE_MATCHING_OBJECT( get_total_stake( "eonio" ), mvo()
       ("owner", "eonio")
@@ -5014,7 +5014,7 @@ BOOST_FIXTURE_TEST_CASE( change_limited_account_back_to_unlimited, eosio_system_
    );
 
    BOOST_REQUIRE_EQUAL( wasm_assert_msg( "only supports unlimited accounts" ),
-                        push_action( N(eosio), N(setalimits), mvo()
+                        push_action( N(eonio), N(setalimits), mvo()
                                           ("account", "eonio")
                                           ("ram_bytes", ram_bytes_needed)
                                           ("net_weight", -1)
@@ -5023,7 +5023,7 @@ BOOST_FIXTURE_TEST_CASE( change_limited_account_back_to_unlimited, eosio_system_
    );
 
    BOOST_REQUIRE_EQUAL( error( "transaction net usage is too high: 128 > 0" ),
-                        push_action( N(eosio), N(setalimits), mvo()
+                        push_action( N(eonio), N(setalimits), mvo()
                            ("account", "eosio.saving")
                            ("ram_bytes", -1)
                            ("net_weight", -1)
@@ -5032,14 +5032,14 @@ BOOST_FIXTURE_TEST_CASE( change_limited_account_back_to_unlimited, eosio_system_
    );
 
    BOOST_REQUIRE_EQUAL( success(),
-                        push_action( N(eosio), N(setacctnet), mvo()
+                        push_action( N(eonio), N(setacctnet), mvo()
                            ("account", "eonio")
                            ("net_weight", -1)
                         )
    );
 
    BOOST_REQUIRE_EQUAL( success(),
-                        push_action( N(eosio), N(setacctcpu), mvo()
+                        push_action( N(eonio), N(setacctcpu), mvo()
                            ("account", "eonio")
                            ("cpu_weight", -1)
 
@@ -5047,7 +5047,7 @@ BOOST_FIXTURE_TEST_CASE( change_limited_account_back_to_unlimited, eosio_system_
    );
 
    BOOST_REQUIRE_EQUAL( success(),
-                        push_action( N(eosio), N(setalimits), mvo()
+                        push_action( N(eonio), N(setalimits), mvo()
                                           ("account", "eosio.saving")
                                           ("ram_bytes", ram_bytes_needed)
                                           ("net_weight", -1)
@@ -5060,9 +5060,9 @@ BOOST_FIXTURE_TEST_CASE( change_limited_account_back_to_unlimited, eosio_system_
 BOOST_FIXTURE_TEST_CASE( buy_pin_sell_ram, eosio_system_tester ) try {
    BOOST_REQUIRE( get_total_stake( "eonio" ).is_null() );
 
-   transfer( N(eosio), N(alice1111111), core_sym::from_string("1020.0000") );
+   transfer( N(eonio), N(alice1111111), core_sym::from_string("1020.0000") );
 
-   auto error_msg = stake( N(alice1111111), N(eosio), core_sym::from_string("10.0000"), core_sym::from_string("10.0000") );
+   auto error_msg = stake( N(alice1111111), N(eonio), core_sym::from_string("10.0000"), core_sym::from_string("10.0000") );
    auto semicolon_pos = error_msg.find(';');
 
    BOOST_REQUIRE_EQUAL( error("account eosio has insufficient ram"),
@@ -5078,7 +5078,7 @@ BOOST_FIXTURE_TEST_CASE( buy_pin_sell_ram, eosio_system_tester ) try {
 
    auto alice_original_balance = get_balance( N(alice1111111) );
 
-   BOOST_REQUIRE_EQUAL( success(), buyrambytes( N(alice1111111), N(eosio), static_cast<uint32_t>(ram_bytes_needed) ) );
+   BOOST_REQUIRE_EQUAL( success(), buyrambytes( N(alice1111111), N(eonio), static_cast<uint32_t>(ram_bytes_needed) ) );
 
    auto tokens_paid_for_ram = alice_original_balance - get_balance( N(alice1111111) );
 
@@ -5092,7 +5092,7 @@ BOOST_FIXTURE_TEST_CASE( buy_pin_sell_ram, eosio_system_tester ) try {
    );
 
    BOOST_REQUIRE_EQUAL( wasm_assert_msg( "only supports unlimited accounts" ),
-                        push_action( N(eosio), N(setalimits), mvo()
+                        push_action( N(eonio), N(setalimits), mvo()
                                           ("account", "eonio")
                                           ("ram_bytes", ram_bytes_needed)
                                           ("net_weight", -1)
@@ -5101,17 +5101,17 @@ BOOST_FIXTURE_TEST_CASE( buy_pin_sell_ram, eosio_system_tester ) try {
    );
 
    BOOST_REQUIRE_EQUAL( success(),
-                        push_action( N(eosio), N(setacctram), mvo()
+                        push_action( N(eonio), N(setacctram), mvo()
                            ("account", "eonio")
                            ("ram_bytes", total_res["ram_bytes"].as_int64() )
                         )
    );
 
-   auto eosio_original_balance = get_balance( N(eosio) );
+   auto eosio_original_balance = get_balance( N(eonio) );
 
-   BOOST_REQUIRE_EQUAL( success(), sellram( N(eosio), total_res["ram_bytes"].as_int64() ) );
+   BOOST_REQUIRE_EQUAL( success(), sellram( N(eonio), total_res["ram_bytes"].as_int64() ) );
 
-   auto tokens_received_by_selling_ram = get_balance( N(eosio) ) - eosio_original_balance;
+   auto tokens_received_by_selling_ram = get_balance( N(eonio) ) - eosio_original_balance;
 
    BOOST_REQUIRE( double(tokens_paid_for_ram.get_amount() - tokens_received_by_selling_ram.get_amount()) / tokens_paid_for_ram.get_amount() < 0.01 );
 

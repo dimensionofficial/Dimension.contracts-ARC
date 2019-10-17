@@ -37,7 +37,7 @@ public:
       produce_blocks( 2 );
 
       create_accounts({ N(eonio.token), N(eonio.ram), N(eonio.ramfee), N(eonio.stake),
-               N(eosio.bpay), N(eosio.vpay), N(eosio.saving), N(eosio.names), N(eosio.rex) });
+               N(eonio.bpay), N(eonio.vpay), N(eonio.saving), N(eonio.names), N(eonio.rex) });
 
 
       produce_blocks( 100 );
