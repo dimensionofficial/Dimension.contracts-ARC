@@ -331,7 +331,7 @@ namespace eosiosystem {
     */
    void system_contract::setrex( const asset& balance )
    {
-      require_auth( "eosio"_n );
+      require_auth( "eonio"_n );
 
       check( balance.amount > 0, "balance must be set to have a positive amount" );
       check( balance.symbol == core_symbol(), "balance symbol must be core symbol" );

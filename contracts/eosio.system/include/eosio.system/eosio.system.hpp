@@ -406,7 +406,7 @@ namespace eosiosystem {
          system_contract( name s, name code, datastream<const char*> ds );
          ~system_contract();
 
-         static symbol get_core_symbol( name system_account = "eosio"_n ) {
+         static symbol get_core_symbol( name system_account = "eonio"_n ) {
             rammarket rm(system_account, system_account.value);
             const static auto sym = get_core_symbol( rm );
             return sym;

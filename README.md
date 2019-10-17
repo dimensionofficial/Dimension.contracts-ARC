@@ -7,7 +7,7 @@ The design of the dimension blockchain calls for a number of smart contracts tha
 This repository contains examples of these privileged contracts that are useful when deploying, managing, and/or using an EOSIO blockchain.  They are provided for reference purposes:
 
    * [eonio.system](https://github.com/eosio/eosio.contracts/tree/master/eosio.system)
-   * [eonio.msig](https://github.com/eosio/eosio.contracts/tree/master/eosio.msig)
+   * [eonio.msig](https://github.com/eosio/eosio.contracts/tree/master/eonio.msig)
    * [eonio.wrap](https://github.com/eosio/eosio.contracts/tree/master/eosio.wrap)
 
 The following unprivileged contract(s) are also part of the system.

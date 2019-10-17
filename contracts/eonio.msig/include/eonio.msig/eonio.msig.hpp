@@ -5,7 +5,7 @@
 
 namespace eosio {
 
-   class [[eosio::contract("eosio.msig")]] multisig : public contract {
+   class [[eosio::contract("eonio.msig")]] multisig : public contract {
       public:
          using contract::contract;
 

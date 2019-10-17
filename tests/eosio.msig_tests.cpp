@@ -20,20 +20,20 @@ using mvo = fc::mutable_variant_object;
 class eosio_msig_tester : public tester {
 public:
    eosio_msig_tester() {
-      create_accounts( { N(eosio.msig), N(eosio.stake), N(eosio.ram), N(eosio.ramfee), N(alice), N(bob), N(carol) } );
+      create_accounts( { N(eonio.msig), N(eosio.stake), N(eosio.ram), N(eosio.ramfee), N(alice), N(bob), N(carol) } );
       produce_block();
 
       auto trace = base_tester::push_action(config::system_account_name, N(setpriv),
                                             config::system_account_name,  mutable_variant_object()
-                                            ("account", "eosio.msig")
+                                            ("account", "eonio.msig")
                                             ("is_priv", 1)
       );
 
-      set_code( N(eosio.msig), contracts::msig_wasm() );
-      set_abi( N(eosio.msig), contracts::msig_abi().data() );
+      set_code( N(eonio.msig), contracts::msig_wasm() );
+      set_abi( N(eonio.msig), contracts::msig_abi().data() );
 
       produce_blocks();
-      const auto& accnt = control->db().get<account_object,by_name>( N(eosio.msig) );
+      const auto& accnt = control->db().get<account_object,by_name>( N(eonio.msig) );
       abi_def abi;
       BOOST_REQUIRE_EQUAL(abi_serializer::to_abi(accnt.abi, abi), true);
       abi_ser.set_abi(abi, abi_serializer_max_time);
@@ -127,7 +127,7 @@ public:
       vector<account_name> accounts;
       if( auth )
          accounts.push_back( signer );
-      auto trace = base_tester::push_action( N(eosio.msig), name, accounts, data );
+      auto trace = base_tester::push_action( N(eonio.msig), name, accounts, data );
       produce_block();
       BOOST_REQUIRE_EQUAL( true, chain_has_transaction(trace->id) );
       return trace;
@@ -136,7 +136,7 @@ public:
          string action_type_name = abi_ser.get_action_type(name);
 
          action act;
-         act.account = N(eosio.msig);
+         act.account = N(eonio.msig);
          act.name = name;
          act.data = abi_ser.variant_to_binary( action_type_name, data, abi_serializer_max_time );
          //std::cout << "test:\n" << fc::to_hex(act.data.data(), act.data.size()) << " size = " << act.data.size() << std::endl;
@@ -723,11 +723,11 @@ BOOST_FIXTURE_TEST_CASE( propose_invalidate_approve, eosio_msig_tester ) try {
 } FC_LOG_AND_RETHROW()
 
 BOOST_FIXTURE_TEST_CASE( approve_execute_old, eosio_msig_tester ) try {
-   set_code( N(eosio.msig), contracts::util::msig_wasm_old() );
-   set_abi( N(eosio.msig), contracts::util::msig_abi_old().data() );
+   set_code( N(eonio.msig), contracts::util::msig_wasm_old() );
+   set_abi( N(eonio.msig), contracts::util::msig_abi_old().data() );
    produce_blocks();
 
-   //propose with old version of eosio.msig
+   //propose with old version of eonio.msig
    auto trx = reqauth("alice", {permission_level{N(alice), config::active_name}}, abi_serializer_max_time );
    push_action( N(alice), N(propose), mvo()
                   ("proposer",      "alice")
@@ -736,8 +736,8 @@ BOOST_FIXTURE_TEST_CASE( approve_execute_old, eosio_msig_tester ) try {
                   ("requested", vector<permission_level>{{ N(alice), config::active_name }})
    );
 
-   set_code( N(eosio.msig), contracts::msig_wasm() );
-   set_abi( N(eosio.msig), contracts::msig_abi().data() );
+   set_code( N(eonio.msig), contracts::msig_wasm() );
+   set_abi( N(eonio.msig), contracts::msig_abi().data() );
    produce_blocks();
 
    //approve and execute with new version
@@ -763,11 +763,11 @@ BOOST_FIXTURE_TEST_CASE( approve_execute_old, eosio_msig_tester ) try {
 
 
 BOOST_FIXTURE_TEST_CASE( approve_unapprove_old, eosio_msig_tester ) try {
-   set_code( N(eosio.msig), contracts::util::msig_wasm_old() );
-   set_abi( N(eosio.msig), contracts::util::msig_abi_old().data() );
+   set_code( N(eonio.msig), contracts::util::msig_wasm_old() );
+   set_abi( N(eonio.msig), contracts::util::msig_abi_old().data() );
    produce_blocks();
 
-   //propose with old version of eosio.msig
+   //propose with old version of eonio.msig
    auto trx = reqauth("alice", {permission_level{N(alice), config::active_name}}, abi_serializer_max_time );
    push_action( N(alice), N(propose), mvo()
                   ("proposer",      "alice")
@@ -783,8 +783,8 @@ BOOST_FIXTURE_TEST_CASE( approve_unapprove_old, eosio_msig_tester ) try {
                   ("level",         permission_level{ N(alice), config::active_name })
    );
 
-   set_code( N(eosio.msig), contracts::msig_wasm() );
-   set_abi( N(eosio.msig), contracts::msig_abi().data() );
+   set_code( N(eonio.msig), contracts::msig_wasm() );
+   set_abi( N(eonio.msig), contracts::msig_abi().data() );
    produce_blocks();
 
    //unapprove with old version
@@ -806,8 +806,8 @@ BOOST_FIXTURE_TEST_CASE( approve_unapprove_old, eosio_msig_tester ) try {
 } FC_LOG_AND_RETHROW()
 
 BOOST_FIXTURE_TEST_CASE( approve_by_two_old, eosio_msig_tester ) try {
-   set_code( N(eosio.msig), contracts::util::msig_wasm_old() );
-   set_abi( N(eosio.msig), contracts::util::msig_abi_old().data() );
+   set_code( N(eonio.msig), contracts::util::msig_wasm_old() );
+   set_abi( N(eonio.msig), contracts::util::msig_abi_old().data() );
    produce_blocks();
 
    auto trx = reqauth("alice", vector<permission_level>{ { N(alice), config::active_name }, { N(bob), config::active_name } }, abi_serializer_max_time );
@@ -825,8 +825,8 @@ BOOST_FIXTURE_TEST_CASE( approve_by_two_old, eosio_msig_tester ) try {
                   ("level",         permission_level{ N(alice), config::active_name })
    );
 
-   set_code( N(eosio.msig), contracts::msig_wasm() );
-   set_abi( N(eosio.msig), contracts::msig_abi().data() );
+   set_code( N(eonio.msig), contracts::msig_wasm() );
+   set_abi( N(eonio.msig), contracts::msig_abi().data() );
    produce_blocks();
 
    //fail because approval by bob is missing
