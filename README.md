@@ -8,7 +8,7 @@ This repository contains examples of these privileged contracts that are useful 
 
    * [eonio.system](https://github.com/eosio/eosio.contracts/tree/master/eonio.system)
    * [eonio.msig](https://github.com/eosio/eosio.contracts/tree/master/eonio.msig)
-   * [eonio.wrap](https://github.com/eosio/eosio.contracts/tree/master/eosio.wrap)
+   * [eonio.wrap](https://github.com/eosio/eosio.contracts/tree/master/eonio.wrap)
 
 The following unprivileged contract(s) are also part of the system.
    * [eonio.token](https://github.com/eosio/eosio.contracts/tree/master/eonio.token)

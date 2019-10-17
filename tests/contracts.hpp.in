@@ -13,9 +13,9 @@ struct contracts {
    static std::vector<uint8_t> msig_wasm() { return read_wasm("${CMAKE_BINARY_DIR}/../contracts/eonio.msig/eonio.msig.wasm"); }
    static std::string          msig_wast() { return read_wast("${CMAKE_BINARY_DIR}/../contracts/eonio.msig/eonio.msig.wast"); }
    static std::vector<char>    msig_abi() { return read_abi("${CMAKE_BINARY_DIR}/../contracts/eonio.msig/eonio.msig.abi"); }
-   static std::vector<uint8_t> wrap_wasm() { return read_wasm("${CMAKE_BINARY_DIR}/../contracts/eosio.wrap/eosio.wrap.wasm"); }
-   static std::string          wrap_wast() { return read_wast("${CMAKE_BINARY_DIR}/../contracts/eosio.wrap/eosio.wrap.wast"); }
-   static std::vector<char>    wrap_abi() { return read_abi("${CMAKE_BINARY_DIR}/../contracts/eosio.wrap/eosio.wrap.abi"); }
+   static std::vector<uint8_t> wrap_wasm() { return read_wasm("${CMAKE_BINARY_DIR}/../contracts/eonio.wrap/eonio.wrap.wasm"); }
+   static std::string          wrap_wast() { return read_wast("${CMAKE_BINARY_DIR}/../contracts/eonio.wrap/eonio.wrap.wast"); }
+   static std::vector<char>    wrap_abi() { return read_abi("${CMAKE_BINARY_DIR}/../contracts/eonio.wrap/eonio.wrap.abi"); }
    static std::vector<uint8_t> bios_wasm() { return read_wasm("${CMAKE_BINARY_DIR}/../contracts/eonio.bios/eonio.bios.wasm"); }
    static std::string          bios_wast() { return read_wast("${CMAKE_BINARY_DIR}/../contracts/eonio.bios/eonio.bios.wast"); }
    static std::vector<char>    bios_abi() { return read_abi("${CMAKE_BINARY_DIR}/../contracts/eonio.bios/eonio.bios.abi"); }
