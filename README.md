@@ -6,12 +6,12 @@ The design of the dimension blockchain calls for a number of smart contracts tha
 
 This repository contains examples of these privileged contracts that are useful when deploying, managing, and/or using an dimension blockchain.  They are provided for reference purposes:
 
-   * [eonio.system](https://github.com/dimension/eonio.contracts/tree/master/eonio.system)
-   * [eonio.msig](https://github.com/dimension/eonio.contracts/tree/master/eonio.msig)
-   * [eonio.wrap](https://github.com/dimension/eonio.contracts/tree/master/eonio.wrap)
+   * [eonio.system](https://github.com/dimensionofficial/eonio.contracts/tree/master/eonio.system)
+   * [eonio.msig](https://github.com/dimensionofficial/eonio.contracts/tree/master/eonio.msig)
+   * [eonio.wrap](https://github.com/dimensionofficial/eonio.contracts/tree/master/eonio.wrap)
 
 The following unprivileged contract(s) are also part of the system.
-   * [eonio.token](https://github.com/dimension/eonio.contracts/tree/master/eonio.token)
+   * [eonio.token](https://github.com/dimensionofficial/eonio.contracts/tree/master/eonio.token)
 
 Dependencies:
 * [dimension v1.7.x](https://github.com/dimensionofficial/dimension/releases/tag/v1.7.0)
