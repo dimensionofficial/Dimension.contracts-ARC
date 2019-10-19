@@ -11,7 +11,7 @@ This repository contains examples of these privileged contracts that are useful 
    * [eonio.wrap](https://github.com/dimension/eonio.contracts/tree/master/eonio.wrap)
 
 The following unprivileged contract(s) are also part of the system.
-   * [eonio.token](https://github.com/eosio/eonio.contracts/tree/master/eonio.token)
+   * [eonio.token](https://github.com/dimension/eonio.contracts/tree/master/eonio.token)
 
 Dependencies:
 * [dimension v1.7.x](https://github.com/dimensionofficial/dimension/releases/tag/v1.7.0)
