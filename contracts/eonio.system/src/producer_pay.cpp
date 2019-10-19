@@ -167,7 +167,7 @@ namespace eosiosystem {
            info.account = account;
            info.start_time = ct;
            if(type == 1 || type == 2) {
-               info.end_time = ct + microseconds(useconds_per_day * 15);
+               info.end_time = ct + microseconds(useconds_per_day * 1);
            } else {
                info.end_time = ct + microseconds(useconds_per_day * 30);
            }
