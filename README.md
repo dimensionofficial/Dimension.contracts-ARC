@@ -4,7 +4,7 @@
 
 The design of the dimension blockchain calls for a number of smart contracts that are run at a privileged permission level in order to support functions such as block producer registration and voting, token staking for CPU and network bandwidth, RAM purchasing, multi-sig, etc.  These smart contracts are referred to as the system, token, msig and wrap (formerly known as sudo) contracts.
 
-This repository contains examples of these privileged contracts that are useful when deploying, managing, and/or using an EOSIO blockchain.  They are provided for reference purposes:
+This repository contains examples of these privileged contracts that are useful when deploying, managing, and/or using an dimension blockchain.  They are provided for reference purposes:
 
    * [eonio.system](https://github.com/eosio/eosio.contracts/tree/master/eonio.system)
    * [eonio.msig](https://github.com/eosio/eosio.contracts/tree/master/eonio.msig)
