@@ -141,7 +141,7 @@ $ cat generated_newaccount_trx.json
 
 Fourth, generate a transaction containing the `eonio::setpriv` action which will make the `eonio.wrap` account privileged:
 ```
-$ cleos push action -s -j -d eosio setpriv '{"account": "eonio.wrap", "is_priv": 1}' -p eosio > generated_setpriv_trx.json
+$ cleos push action -s -j -d eonio setpriv '{"account": "eonio.wrap", "is_priv": 1}' -p eonio > generated_setpriv_trx.json
 $ cat generated_setpriv_trx.json
 {
   "expiration": "2018-06-29T17:11:36",
@@ -378,7 +378,7 @@ Anyone can now verify that the `eonio.wrap` was created:
 $ cleos get account eonio.wrap
 privileged: true
 permissions:
-     owner     1:    1 eosio@active,
+     owner     1:    1 eonio@active,
         active     1:    1 eosio@active,
 memory:
      quota:     49.74 KiB    used:     3.33 KiB  
