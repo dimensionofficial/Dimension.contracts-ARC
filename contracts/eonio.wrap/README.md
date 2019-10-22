@@ -110,9 +110,9 @@ $ cat newaccount_payload.json
 }
 ```
 
-Third, generate a transaction containing the actual `eosio::newaccount` action that will be used in the final transaction:
+Third, generate a transaction containing the actual `eonio::newaccount` action that will be used in the final transaction:
 ```
-$ cleos push action -s -j -d eosio newaccount newaccount_payload.json -p eosio > generated_newaccount_trx.json
+$ cleos push action -s -j -d eonio newaccount newaccount_payload.json -p eosio > generated_newaccount_trx.json
 $ cat generated_newaccount_trx.json
 {
   "expiration": "2018-06-29T17:11:36",
