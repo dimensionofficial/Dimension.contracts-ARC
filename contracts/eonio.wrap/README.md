@@ -862,7 +862,7 @@ Anyone can now verify that the owner authority of `alice` was successfully chang
 ```
 $ cleos get account alice
 permissions:
-     owner     1:    1 eosio@active,
+     owner     1:    1 eonio@active,
         active     1:    1 EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
 memory:
      quota:     49.74 KiB    used:     3.348 KiB  
