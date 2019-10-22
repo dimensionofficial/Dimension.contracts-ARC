@@ -112,7 +112,7 @@ $ cat newaccount_payload.json
 
 Third, generate a transaction containing the actual `eonio::newaccount` action that will be used in the final transaction:
 ```
-$ cleos push action -s -j -d eonio newaccount newaccount_payload.json -p eosio > generated_newaccount_trx.json
+$ cleos push action -s -j -d eonio newaccount newaccount_payload.json -p eonio > generated_newaccount_trx.json
 $ cat generated_newaccount_trx.json
 {
   "expiration": "2018-06-29T17:11:36",
@@ -139,7 +139,7 @@ $ cat generated_newaccount_trx.json
 }
 ```
 
-Fourth, generate a transaction containing the `eosio::setpriv` action which will make the `eonio.wrap` account privileged:
+Fourth, generate a transaction containing the `eonio::setpriv` action which will make the `eonio.wrap` account privileged:
 ```
 $ cleos push action -s -j -d eosio setpriv '{"account": "eonio.wrap", "is_priv": 1}' -p eosio > generated_setpriv_trx.json
 $ cat generated_setpriv_trx.json
