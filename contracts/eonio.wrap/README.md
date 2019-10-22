@@ -81,9 +81,9 @@ $ cat generated_account_creation_trx.json
 }
 ```
 Adjust the amount of delegated tokens and the amount of RAM bytes to gift as necessary.
-The actual public key used is not important since that data is only encoded into the `eosio::newaccount` action which will be replaced soon anyway.
+The actual public key used is not important since that data is only encoded into the `eonio::newaccount` action which will be replaced soon anyway.
 
-Second, create a file (e.g. newaccount_payload.json) with the JSON payload for the real `eosio::newaccount` action. It should look like:
+Second, create a file (e.g. newaccount_payload.json) with the JSON payload for the real `eonio::newaccount` action. It should look like:
 ```
 $ cat newaccount_payload.json
 {
