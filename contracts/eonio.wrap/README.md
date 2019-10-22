@@ -379,7 +379,7 @@ $ cleos get account eonio.wrap
 privileged: true
 permissions:
      owner     1:    1 eonio@active,
-        active     1:    1 eosio@active,
+        active     1:    1 eonio@active,
 memory:
      quota:     49.74 KiB    used:     3.33 KiB  
 
