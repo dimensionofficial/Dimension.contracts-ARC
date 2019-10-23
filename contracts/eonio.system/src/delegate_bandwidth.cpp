@@ -511,8 +511,8 @@ namespace eosiosystem {
       check( unstake_cpu_quantity >= zero_asset, "must unstake a positive amount" );
       check( unstake_net_quantity >= zero_asset, "must unstake a positive amount" );
       check( unstake_cpu_quantity.amount + unstake_net_quantity.amount > 0, "must unstake a positive amount" );
-      check( _gstate.total_activated_stake >= min_activated_stake,
-             "cannot undelegate bandwidth until the chain is activated (at least 15% of all tokens participate in voting)" );
+      check( _gstate.total_proposal_stake >= min_proposal_stake,
+             "cannot undelegate bandwidth until the chain is activated (at least 1 000 000)" );
 
       int64_t pvote_weight_old = 0;
       int64_t pvote_weight_new = 0;

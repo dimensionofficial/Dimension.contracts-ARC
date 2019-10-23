@@ -6,6 +6,7 @@ namespace eosiosystem {
 
    const int64_t  min_pervote_daily_pay = 100'0000;
    const int64_t  min_activated_stake   = 150'000'000'0000;
+   const int64_t  min_proposal_stake   = 1'000'000;
    const double   continuous_rate       = 0.04879;          // 5% annual rate
    const double   perblock_rate         = 0.0025;           // 0.25%
    const double   standby_rate          = 0.0075;           // 0.75%
@@ -32,7 +33,7 @@ namespace eosiosystem {
 
 
       /** until activated stake crosses this threshold no new rewards are paid */
-      if( _gstate.total_activated_stake < min_activated_stake || get_producers_size() < _gstate3.min_producer_size )
+      if( _gstate.total_proposal_stake < min_proposal_stake || get_producers_size() < _gstate3.min_producer_size )
          return;
 
       if( _gstate.last_pervote_bucket_fill == time_point() )  /// start the presses
@@ -267,7 +268,7 @@ namespace eosiosystem {
       const auto& prod = _producers.get( owner.value );
       check( prod.active(), "producer does not have an active key" );
 
-      check( _gstate.total_activated_stake >= min_activated_stake,
+      check( _gstate.total_proposal_stake >= min_proposal_stake,
                     "cannot claim rewards until the chain is activated (at least 15% of all tokens participate in voting)" );
 
       const auto ct = current_time_point();
