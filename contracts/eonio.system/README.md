@@ -54,6 +54,8 @@ The naming convention is codeaccount::actionname followed by a list of paramters
 ## eonio::claimrewards producer
    - **producer** producer account claiming per-block and per-vote rewards
    
+## eonio::staketognode
+   
 ## eonio::deposit owner amount
    - Deposits tokens to user REX fund
    - **owner** REX fund owner account
