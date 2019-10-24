@@ -11,7 +11,7 @@ This contract provides multiple functionalities:
 Actions:
 The naming convention is codeaccount::actionname followed by a list of paramters.
 
-## eosio::regproducer producer producer_key url location
+## eonio::regproducer producer producer_key url location
    - Indicates that a particular account wishes to become a producer
    - **producer** account registering to be a producer candidate
    - **producer_key** producer account public key
