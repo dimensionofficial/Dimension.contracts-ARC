@@ -59,6 +59,8 @@ The naming convention is codeaccount::actionname followed by a list of paramters
 ## eonio::newproposal
 
 ## eonio::updateprop
+
+## eonio::voteproposal
    
 ## eonio::deposit owner amount
    - Deposits tokens to user REX fund
