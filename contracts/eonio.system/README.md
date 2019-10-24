@@ -165,7 +165,7 @@ The naming convention is codeaccount::actionname followed by a list of paramters
    - **loan_num** loan id
    - **amount** tokens transfered from NET loan fund to REX fund
 
-## eosio::updaterex owner
+## eonio::updaterex owner
    - Updates REX owner vote weight to current value of held REX
    - **owner** REX owner account
 
