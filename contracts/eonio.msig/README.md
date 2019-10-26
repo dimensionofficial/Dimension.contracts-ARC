@@ -100,7 +100,7 @@ $ cleon multisig review tester test -p treasury
 
 And then approves it:
 ````
-$ cleos multisig approve tester test '{"actor": "treasury", "permission": "active"}' -p treasury
+$ cleon multisig approve tester test '{"actor": "treasury", "permission": "active"}' -p treasury
 executed transaction: 475970a4b0016368d0503d1ce01577376f91f5a5ba63dd4353683bd95101b88d  256 bytes  108544 cycles
 #    eonio.msig <= eonio.msig::approve          {"proposer":"tester","proposal_name":"test","level":{"actor":"treasury","permission":"active"}}
 ````
