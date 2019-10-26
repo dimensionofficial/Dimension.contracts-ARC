@@ -42,7 +42,7 @@ Execute a proposal
    - **executer** account executing the transaction
 
 
-Cleos usage example.
+Cleon usage example.
 
 Prerequisites:
    - eonio.token contract installed to eonio.token accountm, eonio.msig contract installed on eonio.msig account which is a priviliged account.
