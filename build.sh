@@ -1,6 +1,6 @@
 #! /bin/bash
 
-printf "\t=========== Building eosio.contracts ===========\n\n"
+printf "\t=========== Building dimension.contracts ===========\n\n"
 
 RED='\033[0;31m'
 NC='\033[0m'
