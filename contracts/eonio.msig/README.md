@@ -107,7 +107,7 @@ executed transaction: 475970a4b0016368d0503d1ce01577376f91f5a5ba63dd4353683bd951
 
 First user initiates execution:
 ````
-$ cleos multisig exec tester test -p tester
+$ cleon multisig exec tester test -p tester
 executed transaction: 64e5eaceb77362694055f572ae35876111e87b637a55250de315b1b55e56d6c2  248 bytes  109568 cycles
 #    eonio.msig <= eonio.msig::exec             {"proposer":"tester","proposal_name":"test","executer":"tester"}
 ````
