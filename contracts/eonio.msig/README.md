@@ -59,7 +59,7 @@ executed transaction: e26f3a3a7cba524a7b15a0b6c77c7daa73d3ba9bf84e83f9c2cdf27fcb
 
 Another user reviews the transaction:
 ````
-$ cleos multisig review tester test -p treasury
+$ cleon multisig review tester test -p treasury
 {
   "proposal_name": "test",
   "requested_approvals": [{
