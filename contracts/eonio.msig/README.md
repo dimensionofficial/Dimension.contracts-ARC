@@ -46,7 +46,7 @@ Cleos usage example.
 
 Prerequisites:
    - eonio.token contract installed to eonio.token accountm, eonio.msig contract installed on eonio.msig account which is a priviliged account.
-   - account 'treasury' is the issuer of EOS token.
+   - account 'treasury' is the issuer of EON token.
    - account 'tester' exists.
    - keys to accounts 'treasury' and 'tester' imported into local wallet, the wallet is unlocked.
 
