@@ -57,7 +57,7 @@ Change requests cover both architectural and functional changes to how dimension
 1. Take a moment to think about the best way to make a case for, and explain what you're thinking. Are you sure this shouldn't really be
    a [bug report](#bug-reports) or a [feature request](#feature-requests)?  Is it really one idea or is it many? What's the context? What problem are you solving? Why is what you are suggesting better than what's already there?
 
-## Working on eosio.contracts
+## Working on dimension.contracts
 
 Code contributions are welcome and encouraged! If you are looking for a good place to start, check out the [good first issue](https://github.com/EOSIO/eosio.contracts/labels/good%20first%20issue) label in GitHub issues.
 
