@@ -68,7 +68,7 @@ Also, please follow these guidelines when submitting code:
 To get it out of the way:
 
 - **[develop](https://github.com/EOSIO/dimension.contracts/tree/develop)** is the development branch. All work on the next release happens here so you should generally branch off `develop`. Do **NOT** use this branch for a production site.
-- **[master](https://github.com/EOSIO/eosio.contracts/tree/master)** contains the latest release of dimension.contracts. This branch may be used in production. Do **NOT** use this branch to work on dimension.contracts's source.
+- **[master](https://github.com/EOSIO/dimension.contracts/tree/master)** contains the latest release of dimension.contracts. This branch may be used in production. Do **NOT** use this branch to work on dimension.contracts's source.
 
 ### Submitting Pull Requests
 
