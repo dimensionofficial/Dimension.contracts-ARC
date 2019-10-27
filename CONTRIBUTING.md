@@ -59,7 +59,7 @@ Change requests cover both architectural and functional changes to how dimension
 
 ## Working on dimension.contracts
 
-Code contributions are welcome and encouraged! If you are looking for a good place to start, check out the [good first issue](https://github.com/EOSIO/eosio.contracts/labels/good%20first%20issue) label in GitHub issues.
+Code contributions are welcome and encouraged! If you are looking for a good place to start, check out the [good first issue](https://github.com/EOSIO/dimension.contracts/labels/good%20first%20issue) label in GitHub issues.
 
 Also, please follow these guidelines when submitting code:
 
