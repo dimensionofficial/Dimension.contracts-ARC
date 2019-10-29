@@ -206,6 +206,7 @@ namespace eosiosystem {
       name            account;
       time_point      start_time;
       time_point      end_time;
+      time_point      exec_time = 0;
       uint32_t        block_height;
       int16_t         type;
       bool            is_satisfy;
@@ -217,7 +218,7 @@ namespace eosiosystem {
       uint64_t primary_key()const { return id; }
       uint64_t by_end_time()const { return end_time.elapsed.count(); }
 
-      EOSLIB_SERIALIZE( proposal_info, (id)(owner)(account)(start_time)(end_time)
+      EOSLIB_SERIALIZE( proposal_info, (id)(owner)(account)(start_time)(end_time)(exec_time)
                                        (block_height)(type)(is_satisfy)(is_exec)(status)(total_yeas)(total_nays) )
    };
 
