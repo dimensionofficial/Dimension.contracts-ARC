@@ -206,7 +206,7 @@ namespace eosiosystem {
       name            account;
       time_point      start_time;
       time_point      vote_end_time;
-      time_point      exec_time = 0;
+      time_point      exec_time;
       uint32_t        block_height;
       int16_t         type;
       bool            is_satisfy;
@@ -271,7 +271,7 @@ namespace eosiosystem {
    typedef eosio::multi_index< "propvote"_n, proposal_vote_info > proposal_vote_table;
 
    typedef eosio::multi_index< "proposals"_n, proposal_info,
-                               indexed_by<"byendtime"_n, const_mem_fun<proposal_info, uint64_t, &proposal_info::by_vote_end_time>  >
+                               indexed_by<"byvendtime"_n, const_mem_fun<proposal_info, uint64_t, &proposal_info::by_vote_end_time>  >
                                > proposals_table;
    typedef eosio::singleton< "global"_n, eosio_global_state >   global_state_singleton;
    typedef eosio::singleton< "global2"_n, eosio_global_state2 > global_state2_singleton;

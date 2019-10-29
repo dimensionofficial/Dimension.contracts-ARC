@@ -449,7 +449,7 @@ namespace eosiosystem {
       if(_gstate.proposal_num == 0) return;
       const auto ct = current_time_point();
       
-      auto idx = _proposals.get_index<"byendtime"_n>();
+      auto idx = _proposals.get_index<"byvendtime"_n>();
       for(auto it = idx.cbegin(); it != idx.cend(); ++it) {
             if(it->vote_end_time  <= ct) continue;
 
