@@ -102,7 +102,7 @@ namespace eosiosystem {
        auto prop = _proposals.find( proposal_id );
        check(prop != _proposals.end(), "proposal_id not in _proposals");
        if(get_producers_size() > 7) { // 多于7个时检查
-           check(ct > prop->end_time, "proposal not end");
+           check(ct > prop->vote_end_time, "proposal not end");
        }
             
        
@@ -168,11 +168,11 @@ namespace eosiosystem {
            info.account = account;
            info.start_time = ct;
            if(type == 1 || type == 2) {
-               info.end_time = ct + microseconds(useconds_per_day * 1);
+               info.vote_end_time = ct + microseconds(useconds_per_day * 1);
            } else {
-               info.end_time = ct + microseconds(useconds_per_day * 30);
+               info.vote_end_time = ct + microseconds(useconds_per_day * 30);
            }
-        //    info.end_time = ct; //测试
+        //    info.vote_end_time = ct; //测试
            info.block_height = block_height;
            info.type = type;
            info.is_satisfy = false;
@@ -223,7 +223,7 @@ namespace eosiosystem {
 
        auto idx = _proposals.get_index<"byendtime"_n>();
        for(auto it = idx.cbegin(); it != idx.cend(); ++it) {
-             if(it->end_time  <= ct) continue;
+             if(it->vote_end_time  <= ct) continue;
  
              check(it->owner != owner, "proposal owner is equal owner");
              check(it->account != owner, "proposal account is equal owner");
