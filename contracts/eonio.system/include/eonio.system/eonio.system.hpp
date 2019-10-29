@@ -216,7 +216,7 @@ namespace eosiosystem {
       int64_t         total_nays;
 
       uint64_t primary_key()const { return id; }
-      uint64_t by_end_time()const { return vote_end_time.elapsed.count(); }
+      uint64_t by_vote_end_time()const { return vote_end_time.elapsed.count(); }
 
       EOSLIB_SERIALIZE( proposal_info, (id)(owner)(account)(start_time)(vote_end_time)(exec_time)
                                        (block_height)(type)(is_satisfy)(is_exec)(status)(total_yeas)(total_nays) )
@@ -271,7 +271,7 @@ namespace eosiosystem {
    typedef eosio::multi_index< "propvote"_n, proposal_vote_info > proposal_vote_table;
 
    typedef eosio::multi_index< "proposals"_n, proposal_info,
-                               indexed_by<"byendtime"_n, const_mem_fun<proposal_info, uint64_t, &proposal_info::by_end_time>  >
+                               indexed_by<"byendtime"_n, const_mem_fun<proposal_info, uint64_t, &proposal_info::by_vote_end_time>  >
                                > proposals_table;
    typedef eosio::singleton< "global"_n, eosio_global_state >   global_state_singleton;
    typedef eosio::singleton< "global2"_n, eosio_global_state2 > global_state2_singleton;
