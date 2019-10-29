@@ -221,7 +221,7 @@ namespace eosiosystem {
        check(prod3 != _gnode.end(), "account not in _gnode");
        check(!prod3->is_bp, "account is bp, can not unstake");
 
-       auto idx = _proposals.get_index<"byendtime"_n>();
+       auto idx = _proposals.get_index<"byvendtime"_n>();
        for(auto it = idx.cbegin(); it != idx.cend(); ++it) {
              if(it->vote_end_time  <= ct) continue;
  
