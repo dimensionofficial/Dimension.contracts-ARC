@@ -119,6 +119,8 @@ namespace eosiosystem {
 
    // 提案type==1，将account 加到producer
    void system_contract::add_elected_producers( name new_producer, public_key key, std::string url, uint16_t loc, uint64_t proposal_id ) {
+
+      const auto ct = current_time_point();
       
       auto prod3 = _gnode.find( new_producer.value );
       check(prod3 != _gnode.end(), "account not in _gnode");
@@ -154,11 +156,14 @@ namespace eosiosystem {
 
       _proposals.modify(proposal_voting, _self, [&](auto &info) {
           info.is_exec = true;
+          info.exec_time = ct;
       });
    }
 
    // 提案type==2，将account 从producer移除
    void system_contract::remove_elected_producers( name remove_producer, uint64_t proposal_id ) {
+
+      const auto ct = current_time_point();
 
       auto idx = _producers.get_index<"prototalvote"_n>();
       // remove_producer是否在bp中
@@ -200,6 +205,7 @@ namespace eosiosystem {
 
       _proposals.modify(proposal_voting, _self, [&](auto &info) {
           info.is_exec = true;
+          info.exec_time = ct;
       });
    }
 
@@ -318,7 +324,7 @@ namespace eosiosystem {
    // t个EON换票计算：t/100 + t/1000 + t/10000 + t/100000 + t/1000000 + ...
    int64_t system_contract::stake_to_proposal_votes( int64_t staked ) {
        int64_t ret = 0;
-       staked /= 1000000; 
+       staked /= 10'0000; 
        while(staked != 0) {
            ret += staked / 10;
            staked /= 10;
