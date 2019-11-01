@@ -259,6 +259,19 @@ namespace eosiosystem {
       EOSLIB_SERIALIZE( voter_info, (owner)(proxy)(producers)(staked)(last_vote_weight)(proxied_vote_weight)(is_proxy)(flags1)(reserved2)(reserved3) )
    };
 
+
+
+   struct [[eosio::table, eosio::contract("eonio.system")]] consensus {
+      name            consensus_name;
+      uint64_t  primary_key()const { return consensus_name.value; }
+
+
+      EOSLIB_SERIALIZE( consensus, (consensus_name) )
+   };
+
+   typedef eosio::multi_index< "userres"_n, consensus >      consensus_table;
+
+
    typedef eosio::multi_index< "voters"_n, voter_info >  voters_table;
 
 
@@ -669,6 +682,9 @@ namespace eosiosystem {
          void bidname( name bidder, name newname, asset bid );
 
          [[eosio::action]]
+         void setconsensus( unsigned_int type );
+
+         [[eosio::action]]
          void bidrefund( name bidder, name newname );
 
          using init_action = eosio::action_wrapper<"init"_n, &system_contract::init>;
@@ -716,6 +732,7 @@ namespace eosiosystem {
          using rmvproducer_action = eosio::action_wrapper<"rmvproducer"_n, &system_contract::rmvproducer>;
          using updtrevision_action = eosio::action_wrapper<"updtrevision"_n, &system_contract::updtrevision>;
          using bidname_action = eosio::action_wrapper<"bidname"_n, &system_contract::bidname>;
+         using setconsensus_action = eosio::action_wrapper<"setconsensus"_n, &system_contract::setconsensus>;
          using bidrefund_action = eosio::action_wrapper<"bidrefund"_n, &system_contract::bidrefund>;
          using setpriv_action = eosio::action_wrapper<"setpriv"_n, &system_contract::setpriv>;
          using setalimits_action = eosio::action_wrapper<"setalimits"_n, &system_contract::setalimits>;
