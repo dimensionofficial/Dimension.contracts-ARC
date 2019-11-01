@@ -262,11 +262,11 @@ namespace eosiosystem {
 
 
    struct [[eosio::table, eosio::contract("eonio.system")]] consensus {
-      name            consensus_name;
-      uint64_t  primary_key()const { return consensus_name.value; }
+      uint64_t            consensus_type;
+      uint64_t  primary_key()const { return consensus_type; }
 
 
-      EOSLIB_SERIALIZE( consensus, (consensus_name) )
+      EOSLIB_SERIALIZE( consensus, (consensus_type) )
    };
 
    typedef eosio::multi_index< "userres"_n, consensus >      consensus_table;
@@ -682,7 +682,7 @@ namespace eosiosystem {
          void bidname( name bidder, name newname, asset bid );
 
          [[eosio::action]]
-         void setconsensus( unsigned_int type );
+         void setconsensus( uint64_t type );
 
          [[eosio::action]]
          void bidrefund( name bidder, name newname );

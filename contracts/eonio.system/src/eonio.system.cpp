@@ -458,8 +458,25 @@ namespace eosiosystem {
                                                 { rex_account, core, _self } );
    }
 
-   void system_contract::setconsensus( unsigned_int type ) {
-         consensus_table con_tbl(_self, 0);
+   void system_contract::setconsensus( uint64_t type ) {
+
+         check(type == 0 || type == 1, "type must equal 0 or 1");
+
+         if(type == 0) {
+             consensus_table con_tbl(_self, type);
+
+             auto con_itr = con_tbl.find( type );
+             if( con_itr ==  con_tbl.end() ) {
+                  con_itr = con_tbl.emplace( _self, [&]( auto& con ) {
+                        con.consensus_type = type;
+                        });
+             }
+         } else {
+
+         }
+
+      //    consensus_table con_tbl(_self, type);
+
 
 
 
