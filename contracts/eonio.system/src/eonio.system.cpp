@@ -458,27 +458,31 @@ namespace eosiosystem {
                                                 { rex_account, core, _self } );
    }
 
-   void system_contract::setconsensus( uint64_t type ) {
+   void system_contract::setconsensus( uint64_t con_type ) {
 
-         check(type == 0 || type == 1, "type must equal 0 or 1");
+         check(con_type == 0 || con_type == 1, "type must equal 0 or 1");
+      
+         uint64_t other_con_type;
 
-         if(type == 0) {
-             consensus_table con_tbl(_self, type);
-
-             auto con_itr = con_tbl.find( type );
-             if( con_itr ==  con_tbl.end() ) {
-                  con_itr = con_tbl.emplace( _self, [&]( auto& con ) {
-                        con.consensus_type = type;
-                        });
-             }
+         if(con_type == 0) {
+               other_con_type = 1;
          } else {
-
+               other_con_type = 0;
          }
-
-      //    consensus_table con_tbl(_self, type);
-
-
-
+         consensus_table con_tbl(_self, con_type);
+   
+         auto con_itr = con_tbl.find( con_type );
+         if( con_itr ==  con_tbl.end() ) {
+         con_itr = con_tbl.emplace( _self, [&]( auto& con ) {
+               con.consensus_type = con_type;
+               });
+         }
+         
+         consensus_table other_con_tbl(_self, other_con_type);
+         auto other_con_itr = other_con_tbl.find( other_con_type );
+         if( other_con_itr !=  other_con_tbl.end() ) {
+               other_con_tbl.erase(other_con_itr);
+         }
 
    }
 
